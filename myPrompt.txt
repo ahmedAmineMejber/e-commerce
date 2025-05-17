@@ -11,7 +11,14 @@ I am building a dynamic online store using PHP and MySQL, inspired by platforms 
 
 📁 boutique_en_ligne/
 ├── 📁 assets/
+│   ├── 📁 css/
 │   └── style.css
+│   ├── 📁 images/
+│     └── 📁 icons/
+      └── 📁 logo/
+      └── 📁 products/
+│   ├── 📁 js/
+│   └── script.js
 │
 ├── 📁 config/
 │   └── database.php
@@ -21,34 +28,36 @@ I am building a dynamic online store using PHP and MySQL, inspired by platforms 
 │   ├── CartController.php
 │   ├── ProductController.php
 │   ├── OrderController.php
-│   ├── AdminController.php  👈 (New)
-│   └── WishlistController.php  👈 (New)
+│   ├── AdminController.php   
+│   └── WishlistController.php    
 │
 ├── 📁 models/
 │   ├── User.php
 │   ├── Product.php
-│   ├── Category.php  👈 (New)
+│   ├── Category.php    
 │   ├── Order.php
-│   ├── OrderItem.php  👈 (New)
+│   ├── OrderItem.php   
 │   ├── Cart.php
-│   └── Wishlist.php  👈 (New)
+│   └── Wishlist.php    
 │
 ├── 📁 views/
+          ├── 📁 includes/
+          │   ├── footer.php
+          │   ├── header.php
+          │   ├── home.php
 │   ├── login.php
 │   ├── register.php
 │   ├── cart.php
 │   ├── checkout.php
 │   ├── confirmation.php
-│   ├── footer.php
-│   ├── header.php
-│   ├── home.php
+
 │   ├── product_list.php
 │   ├── order_history.php
 │   └── 📁 admin/
 │       ├── dashboard.php
 │       ├── manage_products.php
 │       ├── manage_users.php
-│       └── manage_categories.php  👈 (New)
+│       └── manage_categories.php  
 │
 ├── config.php
 ├── index.php
@@ -99,6 +108,7 @@ CREATE TABLE `products` (
   `color` VARCHAR(50) DEFAULT NULL,
   `age_range` VARCHAR(50) DEFAULT NULL,
   `image` VARCHAR(255) NOT NULL,
+    `image_hover` VARCHAR(255) NOT NULL,
   `stock` INT NOT NULL DEFAULT 0,
   `description` TEXT NOT NULL,
   `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
@@ -156,6 +166,8 @@ CREATE TABLE `wishlist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 COMMIT;
+
+
 
 and here is the kind of ready project in github to make it dynamic
 https://github.com/ahmedAmineMejber/e-commerce.git

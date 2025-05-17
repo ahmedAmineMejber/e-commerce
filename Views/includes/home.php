@@ -1,42 +1,46 @@
 
 <?php include 'header.php'; ?>
 
-<!-- Hero Section -->
-<section class="hero">
-    <!-- Background pattern -->
-    <div class="hero-pattern">
-        <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <path d="M0,0 L100,0 L100,100 L0,100 Z" fill="url(#grid)" />
-        </svg>
-        <svg width="0" height="0">
-            <defs>
-                <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5" />
-                </pattern>
-            </defs>
-        </svg>
+<main>
+
+<!--
+  - BANNER
+-->
+
+<div class="banner">
+
+  <div class="container">
+
+    <div class="slider-container has-scrollbar">
+
+    
+
+      <div class="slider-item">
+
+        <img src="./assets/images/banner-3.jpg" alt="new fashion summer sale" class="banner-img">
+
+        <div class="banner-content">
+
+          <p class="banner-subtitle">Sale Offer</p>
+
+          <h2 class="banner-title">New fashion summer sale</h2>
+
+          <p class="banner-text">
+            starting at &dollar; <b>29</b>.99
+          </p>
+
+          <a href="<?php echo BASE_URL; ?>products" class="banner-btn">Shop now</a>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="container">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                Shop the Latest Trends
-            </h1>
-            <p class="hero-text">
-                Discover our curated collection of premium products at unbeatable prices.
-                Free shipping on orders over $50!
-            </p>
-            <div class="hero-buttons">
-                <a href="<?php echo BASE_URL; ?>products" class="btn btn-primary btn-lg">
-                    Shop Now
-                </a>
-                <a href="<?php echo BASE_URL; ?>categories" class="btn btn-outline btn-lg">
-                    Browse Categories
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
+  </div>
+
+</div>
+
 
 <!-- Featured Products Section -->
 <section class="container py-12">
@@ -172,12 +176,19 @@
     </div>
 </section>
 <form action="" method="post">
-    <input type="submit" name="logout" value="logout">
+    <input type="submit" name="logout" value="Logout">
 </form>
 
 
 <?php 
 include 'footer.php';
-if(isset($_POST['logout'])){
-    session_destroy();
-} ?>
+require_once 'controllers/AuthController.php';
+
+if (isset($_POST['logout'])) {
+    $auth = new AuthController();
+    $auth->logout();
+
+    // Redirect to the login page after logout
+    header('Location: ' . BASE_URL . 'login');
+    exit;
+}?>

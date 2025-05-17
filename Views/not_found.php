@@ -1,5 +1,5 @@
 
-<?php include 'header.php'; ?>
+<?php include 'views/includes/header.php'; ?>
 
 <main class="container py-16 text-center">
     <div class="max-w-md mx-auto">
@@ -14,4 +14,4 @@
     </div>
 </main>
 
-<?php include 'footer.php'; ?>
+<?php include 'views/includes/footer.php'; ?>

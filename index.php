@@ -1,4 +1,6 @@
 <?php
+
+
 // Enable error reporting for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -7,62 +9,64 @@ error_reporting(E_ALL);
 // Start session for user authentication
 session_start();
 
-// Define base URL for the application
+// Define base URL
 define('BASE_URL', '/E-commerceP/');
 
-// Get the current route from URL
-$request_uri = $_SERVER['REQUEST_URI'];
-$route = trim(parse_url($request_uri, PHP_URL_PATH), '/');
 
-$basePath = 'E-commerceP';
-$route = trim(parse_url($request_uri, PHP_URL_PATH), '/');
-$route = preg_replace("#^$basePath/#", '', $route);
+// // Get the current route from URL
+// $request_uri = $_SERVER['REQUEST_URI'];
+// $route = trim(parse_url($request_uri, PHP_URL_PATH), '/');
+
+// $basePath = 'E-commerceP';
+// $route = trim(parse_url($request_uri, PHP_URL_PATH), '/');
+// $route = preg_replace("#^$basePath/#", '', $route);
 
 
-// Set default route if empty
-if (empty($route)) {
-    $route = 'home';
+// // Set default route if empty
+
+// echo "Parsed route: " . $route;
+
+
+// Include the router
+require_once 'router.php';
+$router = new Router();
+
+// Define your routes
+$router->get('', 'views/includes/home2.php');
+$router->get('home', 'views/includes/home.php');
+$router->get('products', 'views/product_list.php');
+$router->get('product', 'views/product_detail.php');
+$router->get('cart', 'views/cart.php');
+$router->get('checkout', 'views/checkout.php');
+$router->get('order-confirmation', 'views/confirmation.php');
+$router->get('login', 'views/login.php');
+$router->get('register', 'views/register.php');
+$router->get('account', 'views/account.php');
+$router->get('wishlist', 'views/wishlist.php');
+$router->get('admin', 'views/admin/dashboard.php');
+$router->get('test', 'test_header.php');
+$router->get('index1', 'index1.php');
+$router->get('home2', 'views/includes/home2.php');
+
+// Handle form submissions
+$router->post('login', 'views/login.php');
+$router->post('register', 'views/register.php');
+$router->post('checkout', 'controllers/CheckoutController.php');
+$router->post('wishlist', 'controllers/WishlistController.php');
+$router->post('cart', 'controllers/CartController.php');
+
+// Fallback for 404
+$router->get('404', 'views/not_found.php');
+
+// Dispatch the request
+$router->dispatch();
+?>
+<?php
+$error = '';
+if (isset($_SESSION['login_error'])) {
+    $error = $_SESSION['login_error'];
+    unset($_SESSION['login_error']);
 }
-echo "Parsed route: " . $route;
+// Flush output buffer
 
-
-// Route to the appropriate page
-switch ($route) {
-    case 'E-commerceP':
-        include 'views/includes/home.php';
-        break;
-    case 'products':
-        include 'views/product_list.php';
-        break;
-    case 'product':
-        include 'views/product_detail.php';
-        break;
-    case 'cart':
-        include 'views/cart.php';
-        break;
-    case 'checkout':
-        include 'views/checkout.php';
-        break;
-    case 'order-confirmation':
-        include 'views/confirmation.php';
-        break;
-    case 'login':
-        include 'views/login.php';
-        break;
-    case 'register':
-        include 'views/register.php';
-        break;
-    case 'account':
-        include 'views/account.php';
-        break;
-    case 'wishlist':
-        include 'views/wishlist.php';
-        break;
-    case 'admin':
-        include 'views/admin/dashboard.php';
-        break;
-    default:
-        include 'views/not_found.php';
-        break;
-}
 ?>

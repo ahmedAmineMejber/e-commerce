@@ -1,6 +1,6 @@
 
 <?php 
-include 'header.php';
+include 'views/includes/header.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -173,4 +173,4 @@ $cartTotal = $cartModel->getCartTotal($userId);
     }
 </script>
 
-<?php include 'footer.php'; ?>
+<?php include 'views/includes/footer.php'; ?>

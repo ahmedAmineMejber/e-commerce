@@ -1,90 +1,223 @@
+  <!--
+      - TESTIMONIALS, CTA & SERVICE
+    -->
 
-<footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <!-- About -->
-                <div>
-                    <h3 class="footer-title">ShopifyX</h3>
-                    <p class="text-gray-400 mb-4">
-                        Your one-stop destination for all your shopping needs with the best prices and quality products.
-                    </p>
-                    <div class="social-links">
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Quick Links -->
-                <div>
-                    <h3 class="footer-title">Quick Links</h3>
-                    <ul class="footer-list">
-                        <li>
-                            <a href="<?php echo BASE_URL; ?>">Home</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo BASE_URL; ?>products">Products</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo BASE_URL; ?>categories">Categories</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo BASE_URL; ?>cart">Cart</a>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Customer Service -->
-                <div>
-                    <h3 class="footer-title">Customer Service</h3>
-                    <ul class="footer-list">
-                        <li>
-                            <a href="<?php echo BASE_URL; ?>contact">Contact Us</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo BASE_URL; ?>faq">FAQs</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo BASE_URL; ?>shipping">Shipping Policy</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo BASE_URL; ?>returns">Returns & Refunds</a>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Newsletter -->
-                <div>
-                    <h3 class="footer-title">Newsletter</h3>
-                    <p class="text-gray-400 mb-4">
-                        Subscribe to get updates on new products and special promotions.
-                    </p>
-                    <form class="newsletter-form">
-                        <input
-                            type="email"
-                            placeholder="Your email address"
-                            class="newsletter-input"
-                        />
-                        <button type="submit" class="newsletter-btn">
-                            Subscribe
-                        </button>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; <?php echo date('Y'); ?> ShopifyX. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+  
+
+<footer>
+
+
+<div class="footer-nav">
+
+  <div class="container">
+
+    <ul class="footer-nav-list">
+
+      <li class="footer-nav-item">
+        <h2 class="nav-title">Popular Categories</h2>
+      </li>
+
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Fashion</a>
+      </li>
+
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Electronic</a>
+      </li>
+
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Cosmetic</a>
+      </li>
+
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Health</a>
+      </li>
+
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Watches</a>
+      </li>
+
+    </ul>
+
+    <ul class="footer-nav-list">
     
-        <script src="<?php echo BASE_URL; ?>assets/js/script.js"></script>
+      <li class="footer-nav-item">
+        <h2 class="nav-title">Products</h2>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Prices drop</a>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">New products</a>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Best sales</a>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Contact us</a>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Sitemap</a>
+      </li>
+    
+    </ul>
+
+    <ul class="footer-nav-list">
+    
+      <li class="footer-nav-item">
+        <h2 class="nav-title">Our Company</h2>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Delivery</a>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Legal Notice</a>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Terms and conditions</a>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">About us</a>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Secure payment</a>
+      </li>
+    
+    </ul>
+
+    <ul class="footer-nav-list">
+    
+      <li class="footer-nav-item">
+        <h2 class="nav-title">Services</h2>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Prices drop</a>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">New products</a>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Best sales</a>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Contact us</a>
+      </li>
+    
+      <li class="footer-nav-item">
+        <a href="#" class="footer-nav-link">Sitemap</a>
+      </li>
+    
+    </ul>
+
+    <ul class="footer-nav-list">
+
+      <li class="footer-nav-item">
+        <h2 class="nav-title">Contact</h2>
+      </li>
+
+      <li class="footer-nav-item flex">
+        <div class="icon-box">
+          <ion-icon name="location-outline"></ion-icon>
+        </div>
+
+        <address class="content">
+          419 State 414 Rte
+          Beaver Dams, New York(NY), 14812, USA
+        </address>
+      </li>
+
+      <li class="footer-nav-item flex">
+        <div class="icon-box">
+          <ion-icon name="call-outline"></ion-icon>
+        </div>
+
+        <a href="tel:+607936-8058" class="footer-nav-link">(607) 936-8058</a>
+      </li>
+
+      <li class="footer-nav-item flex">
+        <div class="icon-box">
+          <ion-icon name="mail-outline"></ion-icon>
+        </div>
+
+        <a href="mailto:example@gmail.com" class="footer-nav-link">example@gmail.com</a>
+      </li>
+
+    </ul>
+
+    <ul class="footer-nav-list">
+
+      <li class="footer-nav-item">
+        <h2 class="nav-title">Follow Us</h2>
+      </li>
+
+      <li>
+        <ul class="social-link">
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+          </li>
+
+          <li class="footer-nav-item">
+            <a href="#" class="footer-nav-link">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
+          </li>
+
+        </ul>
+      </li>
+
+    </ul>
+
+  </div>
+
+</div>
+
+<div class="footer-bottom">
+
+  <div class="container">
+
+    <img src="./assets/images/payment.png" alt="payment method" class="payment-img">
+
+    <p class="copyright">
+      Copyright &copy; <a href="#">Anon</a> all rights reserved.
+    </p>
+
+  </div>
+
+</div>
+
+</footer>
+
+    
+        <script src="./assets/js/script.js"></script>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>

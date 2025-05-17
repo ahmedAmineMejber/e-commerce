@@ -1,6 +1,5 @@
 
-<?php 
-include 'header.php';
+<?php include 'views/includes/header.php';
 
 // Check if form is submitted
 $error = '';
@@ -151,4 +150,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </main>
 
-<?php include 'footer.php'; ?>
+<?php include 'views/includes/footer.php'; ?>

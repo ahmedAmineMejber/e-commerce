@@ -1,14 +1,13 @@
-# Enable URL rewriting
-RewriteEngine On
+<IfModule mod_rewrite.c>
+    RewriteEngine On
 
-# If the requested path is not a file or directory
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+    # Set base directory
+    RewriteBase /E-commerceP/
 
-# Redirect all requests to index.php
-RewriteRule ^(.*)$ index.php [QSA,L]
+    # Exclude existing files and directories
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
 
-# PHP error handling
-php_flag display_errors on
-php_value error_reporting E_ALL
-
+    # Route all other requests to index.php
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>

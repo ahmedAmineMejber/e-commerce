@@ -1,6 +1,6 @@
 
 <?php 
-include 'header.php';
+include 'views/includes/header.php';
 
 // Check if product ID is provided
 if (!isset($_GET['id'])) {

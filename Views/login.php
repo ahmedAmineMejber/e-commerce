@@ -1,12 +1,13 @@
 
 <?php 
+include 'views/includes/header.php';
+
 if (!defined('BASE_URL')) {
     define('BASE_URL', '/ecommerce-pDb/');
 }
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-include 'views/includes/header.php';
 
 // Check if form is submitted
 $error = '';
@@ -25,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $error = $result['message'];
     }
+    
 }
 ?>
 
@@ -107,4 +109,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </main>
 
-<?php include 'footer.php'; ?>
+<?php include 'views/includes/footer.php'; ?>
