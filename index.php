@@ -1,4 +1,6 @@
 <?php
+//to get rid of a header error (header already set)
+ob_start();
 
 
 // Enable error reporting for debugging
@@ -68,5 +70,6 @@ if (isset($_SESSION['login_error'])) {
     unset($_SESSION['login_error']);
 }
 // Flush output buffer
+ob_end_flush();
 
 ?>

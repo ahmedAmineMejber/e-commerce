@@ -13,115 +13,117 @@ class WishlistController {
         $this->productModel = new Product();
     }
     
-    // Handle AJAX requests
-    public function handleRequest() {
-        // Start session
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        
-        // Check if user is logged in
-        if (!isset($_SESSION['user_id'])) {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => 'User not logged in'
-            ]);
-            return;
-        }
-        
-        $userId = $_SESSION['user_id'];
-        $action = isset($_POST['action']) ? $_POST['action'] : '';
-        
-        switch ($action) {
-            case 'add':
-                $this->addToWishlist($userId);
-                break;
-            case 'remove':
-                $this->removeFromWishlist($userId);
-                break;
-            default:
-                $this->sendJsonResponse([
-                    'success' => false,
-                    'message' => 'Invalid action'
-                ]);
-        }
+   // Handle form requests (no AJAX)
+public function handleRequest() {
+    // Start session if not already started
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
-    
-    // Add product to wishlist
-    private function addToWishlist($userId) {
-        if (!isset($_POST['product_id'])) {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => 'Product ID is required'
-            ]);
-            return;
-        }
-        
-        $productId = $_POST['product_id'];
-        
-        // Get product details
-        $product = $this->productModel->read($productId);
-        
-        if (!$product) {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => 'Product not found'
-            ]);
-            return;
-        }
-        
-        // Add to wishlist
-        $result = $this->wishlistModel->addItem($userId, $productId, $product['price']);
-        
-        if ($result['success']) {
-            // Update wishlist count in session
-            $_SESSION['wishlist_count'] = $this->wishlistModel->getCountByUser($userId);
-            
-            $this->sendJsonResponse([
-                'success' => true,
-                'message' => 'Product added to wishlist',
-                'count' => $_SESSION['wishlist_count']
-            ]);
-        } else {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => $result['message']
-            ]);
-        }
+
+    // Check if user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => 'You must be logged in to add items to your wishlist.'
+        ];
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
     }
-    
-    // Remove item from wishlist
-    private function removeFromWishlist($userId) {
-        if (!isset($_POST['product_id'])) {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => 'Product ID is required'
-            ]);
-            return;
-        }
-        
-        $productId = $_POST['product_id'];
-        
-        // Remove from wishlist
-        $result = $this->wishlistModel->removeByProductId($userId, $productId);
-        
-        if ($result['success']) {
-            // Update wishlist count in session
-            $_SESSION['wishlist_count'] = $this->wishlistModel->getCountByUser($userId);
-            
-            $this->sendJsonResponse([
-                'success' => true,
-                'message' => 'Item removed from wishlist',
-                'count' => $_SESSION['wishlist_count']
-            ]);
-        } else {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => $result['message']
-            ]);
-        }
+
+    $userId = $_SESSION['user_id'];
+    $action = $_POST['action'] ?? '';
+
+    switch ($action) {
+        case 'add':
+            $this->addToWishlist($userId);
+            break;
+        case 'remove':
+            $this->removeFromWishlist($userId);
+            break;
+        default:
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => 'Invalid action.'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
     }
+}
+
+private function addToWishlist($userId) {
+    $productId = $_POST['product_id'] ?? null;
+
+    if (!$productId) {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => 'Product ID is required.'
+        ];
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    // Get product details
+    $product = $this->productModel->read($productId);
     
+    if (!$product) {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => 'Product not found.'
+        ];
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    // Add to wishlist
+    $result = $this->wishlistModel->addItem($userId, $productId, $product['price']);
+    
+    if ($result['success']) {
+        $_SESSION['message'] = [
+            'type' => 'success',
+            'text' => 'Product added to your wishlist!'
+        ];
+    } else {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => $result['message']
+        ];
+    }
+
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+    exit;
+}
+
+private function removeFromWishlist($userId) {
+    $productId = $_POST['product_id'] ?? null;
+
+    if (!$productId) {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => 'Product ID is required.'
+        ];
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    // Remove from wishlist
+    $result = $this->wishlistModel->removeByProductId($userId, $productId);
+    
+    if ($result['success']) {
+        $_SESSION['message'] = [
+            'type' => 'success',
+            'text' => 'Product removed from your wishlist.'
+        ];
+    } else {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => $result['message']
+        ];
+    }
+
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+    exit;
+}
+
     // Send JSON response
     private function sendJsonResponse($data) {
         header('Content-Type: application/json');

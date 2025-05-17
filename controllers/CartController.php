@@ -14,183 +14,166 @@ class CartController {
     }
     
     // Handle AJAX requests
-    public function handleRequest() {
-        // Start session
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        
-        // Check if user is logged in
-        if (!isset($_SESSION['user_id'])) {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => 'User not logged in'
-            ]);
-            return;
-        }
-        
-        $userId = $_SESSION['user_id'];
-        $action = isset($_POST['action']) ? $_POST['action'] : '';
-        
-        switch ($action) {
-            case 'add':
-                $this->addToCart($userId);
-                break;
-            case 'update':
-                $this->updateCart($userId);
-                break;
-            case 'remove':
-                $this->removeFromCart($userId);
-                break;
-            default:
-                $this->sendJsonResponse([
-                    'success' => false,
-                    'message' => 'Invalid action'
-                ]);
-        }
+    // Handle form requests (no AJAX)
+public function handleRequest() {
+    // Start session if not already started
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
-    
-    // Add product to cart
-    private function addToCart($userId) {
-        if (!isset($_POST['product_id'])) {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => 'Product ID is required'
-            ]);
-            return;
-        }
-        
-        $productId = $_POST['product_id'];
-        $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
-        
-        // Get product details
-        $product = $this->productModel->read($productId);
-        
-        if (!$product) {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => 'Product not found'
-            ]);
-            return;
-        }
-        
-        // Check stock
-        if ($product['stock'] < $quantity) {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => 'Not enough stock available'
-            ]);
-            return;
-        }
-        
-        // Add to cart
-        $result = $this->cartModel->addItem($userId, $productId, $product['price'], $quantity);
-        
-        if ($result['success']) {
-            // Update cart count in session
-            $_SESSION['cart_count'] = $this->cartModel->getCountByUser($userId);
-            
-            $this->sendJsonResponse([
-                'success' => true,
-                'message' => 'Product added to cart',
-                'count' => $_SESSION['cart_count']
-            ]);
-        } else {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => $result['message']
-            ]);
-        }
+
+    // Check if user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => 'You must be logged in to manage your cart.'
+        ];
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
     }
-    
-    // Update cart item quantity
-    private function updateCart($userId) {
-        if (!isset($_POST['item_id']) || !isset($_POST['quantity'])) {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => 'Item ID and quantity are required'
-            ]);
-            return;
-        }
-        
-        $itemId = $_POST['item_id'];
-        $quantity = (int)$_POST['quantity'];
-        
-        if ($quantity <= 0) {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => 'Quantity must be greater than 0'
-            ]);
-            return;
-        }
-        
-        // Update cart
-        $result = $this->cartModel->updateQuantity($itemId, $quantity);
-        
-        if ($result['success']) {
-            // Get updated cart total
-            $total = $this->cartModel->getCartTotal($userId);
-            
-            // Get the individual item to calculate its subtotal
-            $cartItems = $this->cartModel->getUserCart($userId);
-            $subtotal = 0;
-            
-            foreach ($cartItems as $item) {
-                if ($item['id'] === $itemId) {
-                    $subtotal = $item['price'] * $item['qty'];
-                    break;
-                }
-            }
-            
-            $this->sendJsonResponse([
-                'success' => true,
-                'message' => 'Cart updated',
-                'total' => $total,
-                'subtotal' => $subtotal
-            ]);
-        } else {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => $result['message']
-            ]);
-        }
+
+    $userId = $_SESSION['user_id'];
+    $action = $_POST['action'] ?? '';
+
+    switch ($action) {
+        case 'add':
+            $this->addToCart($userId);
+            break;
+        case 'update':
+            $this->updateCart($userId);
+            break;
+        case 'remove':
+            $this->removeFromCart($userId);
+            break;
+        default:
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => 'Invalid action.'
+            ];
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
     }
-    
-    // Remove item from cart
-    private function removeFromCart($userId) {
-        if (!isset($_POST['item_id'])) {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => 'Item ID is required'
-            ]);
-            return;
-        }
-        
-        $itemId = $_POST['item_id'];
-        
-        // Remove from cart
-        $result = $this->cartModel->removeItem($itemId);
-        
-        if ($result['success']) {
-            // Update cart count in session
-            $_SESSION['cart_count'] = $this->cartModel->getCountByUser($userId);
-            
-            // Get updated cart total
-            $total = $this->cartModel->getCartTotal($userId);
-            
-            $this->sendJsonResponse([
-                'success' => true,
-                'message' => 'Item removed from cart',
-                'count' => $_SESSION['cart_count'],
-                'total' => $total
-            ]);
-        } else {
-            $this->sendJsonResponse([
-                'success' => false,
-                'message' => $result['message']
-            ]);
-        }
+}
+
+// Add product to cart
+private function addToCart($userId) {
+    $productId = $_POST['product_id'] ?? null;
+    $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
+
+    if (!$productId) {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => 'Product ID is required.'
+        ];
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
     }
+
+    // Get product details
+    $product = $this->productModel->read($productId);
+
+    if (!$product) {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => 'Product not found.'
+        ];
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    // Check stock
+    if ($product['stock'] < $quantity) {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => 'Not enough stock available.'
+        ];
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    // Add to cart
+    $result = $this->cartModel->addItem($userId, $productId, $product['price'], $quantity);
+
+    if ($result['success']) {
+        $_SESSION['message'] = [
+            'type' => 'success',
+            'text' => 'Product added to cart!'
+        ];
+    } else {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => $result['message']
+        ];
+    }
+
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+    exit;
+}
+
+// Update cart item quantity
+private function updateCart($userId) {
+    $itemId = $_POST['item_id'] ?? null;
+    $quantity = (int)($_POST['quantity'] ?? 0);
+
+    if (!$itemId || $quantity <= 0) {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => 'Item ID and valid quantity are required.'
+        ];
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    // Update cart
+    $result = $this->cartModel->updateQuantity($itemId, $quantity);
+
+    if ($result['success']) {
+        $_SESSION['message'] = [
+            'type' => 'success',
+            'text' => 'Cart updated successfully.'
+        ];
+    } else {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => $result['message']
+        ];
+    }
+
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+    exit;
+}
+
+// Remove item from cart
+private function removeFromCart($userId) {
+    $itemId = $_POST['item_id'] ?? null;
+
+    if (!$itemId) {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => 'Item ID is required.'
+        ];
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
+    }
+
+    // Remove from cart
+    $result = $this->cartModel->removeItem($itemId);
+
+    if ($result['success']) {
+        $_SESSION['message'] = [
+            'type' => 'success',
+            'text' => 'Item removed from cart.'
+        ];
+    } else {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => $result['message']
+        ];
+    }
+
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+    exit;
+}
+
     
     // Send JSON response
     private function sendJsonResponse($data) {
