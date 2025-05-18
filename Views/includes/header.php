@@ -158,13 +158,14 @@ $cart_count = $_SESSION['cart_count'];
       </a>
 
       <div class="header-search-container">
-        <form action="<?php echo BASE_URL; ?>search" method="GET">
-          <input type="search" name="q" class="search-field" placeholder="Enter your product name..." 
-                 value="<?php echo htmlspecialchars($_GET['q'] ?? ''); ?>">
-          <button type="submit" class="search-btn">
-            <ion-icon name="search-outline"></ion-icon>
-          </button>
-        </form>
+      <form action="<?php echo BASE_URL; ?>search" method="GET">
+    <input type="search" name="search" class="search-field" placeholder="Enter your product name..." 
+           value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+    <button type="submit" class="search-btn">
+        <ion-icon name="search-outline"></ion-icon>
+    </button>
+</form>
+
       </div>
       <?php if (isset($_SESSION['user_id'])): ?>
     <a href="<?php echo BASE_URL; ?>logout.php" class="text-red-600 hover:underline">Logout</a>

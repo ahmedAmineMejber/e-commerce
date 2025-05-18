@@ -49,6 +49,8 @@ $router->get('admin', 'views/admin/dashboard.php');
 $router->get('test', 'test_header.php');
 $router->get('index1', 'index1.php');
 $router->get('home2', 'views/includes/home2.php');
+$router->get('search', 'views/product_list.php');
+
 
 // Handle form submissions
 $router->post('login', 'views/login.php');
