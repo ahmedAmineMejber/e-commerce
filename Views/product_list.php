@@ -207,6 +207,23 @@ $categories = $categoryModel->getAllCategories();
         <?php echo strlen($product['description']) > 50 ? substr($product['description'], 0, 50).'...' : $product['description']; ?>
     </a>
 </h3>
+<div class="showcase-rating">
+    <?php
+    $rating = $product['rating']; // Get rating (0-5)
+    $fullStars = floor($rating); // Full stars count
+    $hasHalfStar = ($rating - $fullStars) >= 0.5; // Check for half star
+    
+    // Display 5 stars
+    for ($i = 1; $i <= 5; $i++): 
+        if ($i <= $fullStars): ?>
+            <ion-icon name="star"></ion-icon>
+        <?php elseif ($i == $fullStars + 1 && $hasHalfStar): ?>
+            <ion-icon name="star-half"></ion-icon>
+        <?php else: ?>
+            <ion-icon name="star-outline"></ion-icon>
+        <?php endif;
+    endfor; ?>
+</div>
                 <div class="price-box">
                     <p class="price">$<?php echo number_format($product['price'], 2); ?></p>
                     <del>$<?php echo number_format($product['original_price'], 2); ?></del>

@@ -114,6 +114,7 @@ CREATE TABLE `products` (
   `stock` INT NOT NULL DEFAULT 0,
   `description` TEXT NOT NULL,
   `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+  is_featured TINYINT ,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`admin_id`) REFERENCES `users`(`id`),
   FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`),

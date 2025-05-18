@@ -272,5 +272,17 @@ class Product {
             return false;
         }
     }
+
+    public function getDealOfTheDay($limit = 3) {
+        $stmt = $this->conn->prepare("
+            SELECT * FROM products 
+            WHERE is_featured = 1 
+            ORDER BY RAND() 
+            LIMIT :limit
+        ");
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

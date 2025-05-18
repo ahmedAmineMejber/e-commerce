@@ -235,7 +235,7 @@ if (isset($_SESSION['user_id'])) {
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="../index.htm">
+                                <a href="<?php echo BASE_URL; ?>">
                                     <i class="fas fa-home"></i>
                                 </a>
                             </li>
@@ -348,12 +348,44 @@ if (isset($_SESSION['user_id'])) {
                                     </div>
                                     <?php endif; ?>
 
+
                                     <?php if (!empty($product['age_range'])): ?>
                                     <div class="label-section">
                                         <span class="badge badge-grey-color">Age Range</span>
                                         <span class="label-text"><?php echo $product['age_range']; ?></span>
                                     </div>
                                     <?php endif; ?>
+
+                                    <?php if (!empty($product['rating'])): ?>
+
+<div class="label-section">
+
+<span class="badge badge-grey-color">Rating</span>
+
+<span class="label-text">
+<div class="product-grid">
+
+
+<div class="showcase-rating">
+        <?php
+        $rating = $product['rating']; // Get rating (0-5)
+        $fullStars = floor($rating); // Full stars count
+        $hasHalfStar = ($rating - $fullStars) >= 0.5; // Check for half star
+        
+        // Display 5 stars
+        for ($i = 1; $i <= 5; $i++): 
+            if ($i <= $fullStars): ?>
+                <ion-icon name="star"></ion-icon>
+            <?php elseif ($i == $fullStars + 1 && $hasHalfStar): ?>
+                <ion-icon name="star-half"></ion-icon>
+            <?php else: ?>
+                <ion-icon name="star-outline"></ion-icon>
+            <?php endif;
+        endfor; ?>
+
+</div></div></span>
+</div>
+<?php endif; ?>
 
                                         <?php endif; ?>
 
