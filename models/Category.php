@@ -48,68 +48,68 @@ class Category {
         // For demo purposes, let's create mock categories with icons
         // In a real app, you would fetch from the database
         
-        $categories = [
-            [
-                'id' => 'cat_1',
-                'name' => 'Electronics',
-                'description' => 'Electronic devices and gadgets',
-                'icon' => 'laptop'
-            ],
-            [
-                'id' => 'cat_2',
-                'name' => 'Fashion',
-                'description' => 'Clothing and accessories',
-                'icon' => 'tshirt'
-            ],
-            [
-                'id' => 'cat_3',
-                'name' => 'Home & Kitchen',
-                'description' => 'Home appliances and kitchen items',
-                'icon' => 'home'
-            ],
-            [
-                'id' => 'cat_4',
-                'name' => 'Books',
-                'description' => 'Books and educational materials',
-                'icon' => 'book'
-            ],
-            [
-                'id' => 'cat_5',
-                'name' => 'Sports',
-                'description' => 'Sports equipment and accessories',
-                'icon' => 'futbol'
-            ],
-            [
-                'id' => 'cat_6',
-                'name' => 'Beauty',
-                'description' => 'Beauty and personal care products',
-                'icon' => 'spa'
-            ],
-            [
-                'id' => 'cat_7',
-                'name' => 'Toys',
-                'description' => 'Toys and games for kids',
-                'icon' => 'gamepad'
-            ],
-            [
-                'id' => 'cat_8',
-                'name' => 'Health',
-                'description' => 'Health and wellness products',
-                'icon' => 'heartbeat'
-            ]
-        ];
+        // $categories = [
+        //     [
+        //         'id' => 'cat_1',
+        //         'name' => 'Electronics',
+        //         'description' => 'Electronic devices and gadgets',
+        //         'icon' => 'laptop'
+        //     ],
+        //     [
+        //         'id' => 'cat_2',
+        //         'name' => 'Fashion',
+        //         'description' => 'Clothing and accessories',
+        //         'icon' => 'tshirt'
+        //     ],
+        //     [
+        //         'id' => 'cat_3',
+        //         'name' => 'Home & Kitchen',
+        //         'description' => 'Home appliances and kitchen items',
+        //         'icon' => 'home'
+        //     ],
+        //     [
+        //         'id' => 'cat_4',
+        //         'name' => 'Books',
+        //         'description' => 'Books and educational materials',
+        //         'icon' => 'book'
+        //     ],
+        //     [
+        //         'id' => 'cat_5',
+        //         'name' => 'Sports',
+        //         'description' => 'Sports equipment and accessories',
+        //         'icon' => 'futbol'
+        //     ],
+        //     [
+        //         'id' => 'cat_6',
+        //         'name' => 'Beauty',
+        //         'description' => 'Beauty and personal care products',
+        //         'icon' => 'spa'
+        //     ],
+        //     [
+        //         'id' => 'cat_7',
+        //         'name' => 'Toys',
+        //         'description' => 'Toys and games for kids',
+        //         'icon' => 'gamepad'
+        //     ],
+        //     [
+        //         'id' => 'cat_8',
+        //         'name' => 'Health',
+        //         'description' => 'Health and wellness products',
+        //         'icon' => 'heartbeat'
+        //     ]
+        // ];
         
-        return $categories;
+        // return $categories;
         
         // In a real app, you'd use something like:
-        /*
+        
         $query = "SELECT * FROM " . $this->table . " ORDER BY name";
         
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        */
+        
     }
     
     // Read single category

@@ -1,6 +1,6 @@
 
 <?php 
-include 'views/includes/header.php';
+include 'includes/header.php';
 
 // Check if product ID is provided
 if (!isset($_GET['id'])) {
@@ -306,4 +306,4 @@ if (isset($_SESSION['user_id'])) {
     });
 </script>
 
-<?php include 'footer.php'; ?>
+<?php include 'includes/footer.php'; ?>
