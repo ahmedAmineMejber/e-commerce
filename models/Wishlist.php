@@ -46,6 +46,10 @@ class Wishlist {
         
         try {
             if ($stmt->execute()) {
+                //redefine the wishlist count
+                    $wishlistModel = new Wishlist();
+                    $_SESSION['wishlist_count'] = count($wishlistModel->getUserWishlist($_SESSION['user_id']));
+ 
                 return [
                     'success' => true,
                     'id' => $id
@@ -90,6 +94,8 @@ class Wishlist {
         
         try {
             if ($stmt->execute()) {
+                $wishlistModel = new Wishlist();
+                $_SESSION['wishlist_count'] = count($wishlistModel->getUserWishlist($_SESSION['user_id']));
                 return [
                     'success' => true
                 ];
@@ -116,6 +122,8 @@ class Wishlist {
         
         try {
             if ($stmt->execute()) {
+                $wishlistModel = new Wishlist();
+                $_SESSION['wishlist_count'] = count($wishlistModel->getUserWishlist($_SESSION['user_id']));
                 return [
                     'success' => true
                 ];

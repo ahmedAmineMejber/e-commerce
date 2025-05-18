@@ -22,6 +22,29 @@ $totalPages = ceil($totalProducts / 12);
 $categories = $categoryModel->getAllCategories();
 ?>
 
+<style>
+    /* Add to your existing .product-grid styles */
+.product-grid .showcase-banner {
+    height: 250px; /* Fixed height for image container */
+    overflow: hidden; /* Ensure images don't overflow */
+    position: relative;
+}
+
+.product-grid .product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures images fill container without distortion */
+    transition: var(--transition-timing);
+}
+
+/* Optional: Set a minimum height for the content area */
+.product-grid .showcase-content {
+    min-height: 120px; /* Adjust as needed */
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+}
+</style>
 <main>
 
 
@@ -137,96 +160,62 @@ $categories = $categoryModel->getAllCategories();
                     </div>
                     <?php else: ?>
 
-                    <div class="product-grid">
-                        <?php foreach ($products as $product): ?>
-
-
-                        <div class="showcase">
-
-                            <div class="showcase-banner">
-                                <img src="<?php echo BASE_URL; ?>assets/images/products/<?php echo htmlspecialchars($product['image']); ?>"
-                                    alt="<?php echo htmlspecialchars($product['name']); ?>" class="product-img default"
-                                    width="300">
-
-                                <!-- Hover image (using same image for demo) -->
-                                <img src="<?php echo BASE_URL; ?>assets/images/products/<?php echo htmlspecialchars($product['image']); ?>"
-                                    alt="<?php echo htmlspecialchars($product['name']); ?>" class="product-img hover"
-                                    width="300">
-
-
-                                <?php if ($product['stock'] < 5 && $product['stock'] > 0): ?>
-                                <p class="showcase-badge angle red" style="font-size: 9px;">Low Stock</p>
-                                <?php elseif ($product['stock'] === 0): ?>
-                                <p class="showcase-badge angle black" style="font-size: 9px;">Out of Stock</p>
-                                <?php elseif ($product['stock'] > 5): ?>
-                                <p class="showcase-badge angle black" style="font-size: 9px;">Sale</p>
-                                <?php endif; ?>
-
-
-                                <!-- Show Message (if any) -->
-                                <?php if (isset($_SESSION['message'])): ?>
-                                <div class="alert alert-<?php echo $_SESSION['message']['type']; ?>">
-                                    <?php echo $_SESSION['message']['text']; ?>
-                                </div>
-                                <?php unset($_SESSION['message']); ?>
-                                <?php endif; ?>
-                                <div class="showcase-actions">
-                                    <!-- Add to Wishlist -->
-                                    <form action="<?php echo BASE_URL; ?>wishlist_r.php" method="POST"
-                                        style="display:inline;">
-                                        <input type="hidden" name="action" value="add">
-                                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                                        <button type="submit" class="btn-action">
-                                            <ion-icon name="heart-outline"></ion-icon>
-                                        </button>
-                                    </form>
-
-                                    <!-- View Product Details -->
-                                    <a href="<?php echo BASE_URL; ?>product?id=<?php echo $product['id']; ?>"
-                                        class="btn-action">
-                                        <ion-icon name="eye-outline"></ion-icon>
-                                    </a>
-
-                                    <!-- Add to Cart -->
-                                    <form action="<?php echo BASE_URL; ?>cart_r.php" method="POST"
-                                        style="display:inline;">
-                                        <input type="hidden" name="action" value="add">
-                                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                                        <input type="hidden" name="quantity" value="1">
-                                        <button type="submit" class="btn-action">
-                                            <ion-icon name="bag-add-outline"></ion-icon>
-                                        </button>
-                                    </form>
-                                </div>
-
-
-                            </div>
-
-                            <div class="showcase-content">
-                                <a href="<?php echo BASE_URL; ?>product?id=<?php echo $product['id']; ?>"
-                                    class="showcase-category">
-                                    <?php echo $product['name']; ?>
-                                </a>
-
-                                <h3>
-                                    <a href="#" class="showcase-title"><?php echo $product['description']; ?></a>
-                                </h3>
-
-
-                                <div class="price-box">
-                                    <p class="price">$<?php echo number_format($product['price'], 2); ?></p>
-                                    <del><?php echo number_format($product['original_price'], 2); ?></del>
-                                </div>
-
-                            </div>
-                            <?php endforeach; ?>
-                            <?php endif; ?>
-
-                        </div>
-
-                    </div>
-
+                        <div class="product-grid">
+        <?php foreach ($products as $product): ?>
+        <div class="showcase">
+            <div class="showcase-banner">
+                <img src="<?php echo BASE_URL; ?>assets/images/products/<?php echo htmlspecialchars($product['image']); ?>"
+                    alt="<?php echo htmlspecialchars($product['name']); ?>" class="product-img default"
+                    width="300">
+                <img src="<?php echo BASE_URL; ?>assets/images/products/<?php echo htmlspecialchars($product['image']); ?>"
+                    alt="<?php echo htmlspecialchars($product['name']); ?>" class="product-img hover"
+                    width="300">
+                <p class="showcase-badge angle black">sale</p>
+                <?php if (isset($_SESSION['message'])): ?>
+                <div class="alert alert-<?php echo $_SESSION['message']['type']; ?>">
+                    <?php echo $_SESSION['message']['text']; ?>
                 </div>
+                <?php unset($_SESSION['message']); ?>
+                <?php endif; ?>
+                <div class="showcase-actions">
+                    <form action="<?php echo BASE_URL; ?>wishlist_r.php" method="POST" style="display:inline;">
+                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                        <button type="submit" class="btn-action">
+                            <ion-icon name="heart-outline"></ion-icon>
+                        </button>
+                    </form>
+                    <a href="<?php echo BASE_URL; ?>product?id=<?php echo $product['id']; ?>" class="btn-action">
+                        <ion-icon name="eye-outline"></ion-icon>
+                    </a>
+                    <form action="<?php echo BASE_URL; ?>cart_r.php" method="POST" style="display:inline;">
+                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn-action">
+                            <ion-icon name="bag-add-outline"></ion-icon>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="showcase-content">
+                <a href="<?php echo BASE_URL; ?>product?id=<?php echo $product['id']; ?>" class="showcase-category">
+                    <?php echo $product['name']; ?>
+                </a>
+                <h3>
+    <a href="#" class="showcase-title">
+        <?php echo strlen($product['description']) > 50 ? substr($product['description'], 0, 50).'...' : $product['description']; ?>
+    </a>
+</h3>
+                <div class="price-box">
+                    <p class="price">$<?php echo number_format($product['price'], 2); ?></p>
+                    <del>$<?php echo number_format($product['original_price'], 2); ?></del>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+        <?php endif ?>
+    </div>
 
             </div>
 

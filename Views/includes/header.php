@@ -24,6 +24,18 @@ $cart_count = $_SESSION['cart_count'];
 
 // For testing - simulate a logged in user (remove in production)
 // $_SESSION['user_id'] = 1; // Uncomment to test logged-in state
+
+// Update wishlist count
+  require_once 'models/Wishlist.php';
+  $wishlistModel = new Wishlist();
+  $_SESSION['wishlist_count'] = count($wishlistModel->getUserWishlist($_SESSION['user_id']));
+
+
+// Update cart count
+  require_once 'models/Cart.php';
+  $cartModel = new Cart();
+  $_SESSION['cart_count'] = count($cartModel->getUserCart($_SESSION['user_id']));
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,12 +49,12 @@ $cart_count = $_SESSION['cart_count'];
     <!--
     - favicon
   -->
-    <link rel="shortcut icon" href="./assets/images/logo/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/assets/images/logo/favicon.ico" type="image/x-icon">
 
     <!--
     - custom css link
   -->
-    <link rel="stylesheet" href="./assets/css/style-prefix.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style-prefix.css">
 
 
 

@@ -170,8 +170,7 @@ class Product {
     
     // Get featured products
     public function getFeaturedProducts($limit = 4) {
-        // For demo purposes, we'll just get the latest products
-        // In a real app, you might have a 'featured' flag or other criteria
+
         $query = "SELECT p.*, c.name as category FROM " . $this->table . " p
                   LEFT JOIN categories c ON p.category_id = c.id
                   WHERE p.status = 'active'

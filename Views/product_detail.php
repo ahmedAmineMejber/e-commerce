@@ -1,5 +1,137 @@
+<?php
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Start session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Define BASE_URL only if not already defined
+if (!defined('BASE_URL')) {
+    define('BASE_URL', '/E-commerceP/'); // Adjust to your project path
+}
+
+// Initialize session variables if not set
+$_SESSION['cart_count'] = $_SESSION['cart_count'] ?? 0;
+$_SESSION['wishlist_count'] = $_SESSION['wishlist_count'] ?? 0;
+
+// Set variables for the template
+$is_logged_in = isset($_SESSION['user_id']);
+$wishlist_count = $_SESSION['wishlist_count'];
+$cart_count = $_SESSION['cart_count'];
+
+// For testing - simulate a logged in user (remove in production)
+// $_SESSION['user_id'] = 1; // Uncomment to test logged-in state
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="MkRqEzTGuoSx6LqJUm0OAKxSgNUYt26wTT7RMUZY">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="<?php echo BASE_URL; ?>/assets2/images/favicon.ico">
+    <link rel="icon" href="<?php echo BASE_URL; ?>/assets2/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="<?php echo BASE_URL; ?>/assets2/images/favicon.ico" type="image/x-icon">
+    <meta name="theme-color" content="#e87316">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Surfside Media">
+    <meta name="msapplication-TileImage" conten="<?php echo BASE_URL; ?>/assets2/images/favicon.ico">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Surfside Media">
+    <meta name="keywords" content="Surfside Media">
+    <meta name="author" content="Surfside Media">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <title>SurfsideMedia</title>
+
+    <link id="rtl-link" rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/assets2/css/vendors/bootstrap.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets2/css/vendors/ion.rangeSlider.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/assets2/css/vendors/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/assets2/css/vendors/feather-icon.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/assets2/css/vendors/animate.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/assets2/css/vendors/slick/slick.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/assets2/css/vendors/slick/slick-theme.css">
+    <link id="color-link" rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/assets2/css/demo4.css">
+    <style>
+        .h-logo {
+            max-width: 185px !important;
+        }
+
+        .f-logo {
+            max-width: 220px !important;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .h-logo {
+                max-width: 110px !important;
+            }
+        }
+        .product-buttons {
+    gap: 10px; /* Space between buttons */
+}
+
+
+    </style>
+    <link id="color-link" rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/assets2/css/demo2.css">
+    <!--
+    - favicon
+  -->
+  <link rel="shortcut icon" href="./assets/images/logo/favicon.ico" type="image/x-icon">
+
+<!--
+- custom css link
+-->
+<link rel="stylesheet" href="./assets/css/style-prefix.css">
+
+
+
+
+<!--
+- google font link
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+<style>
+    .product-count .count-items {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Adjust spacing between items */
+}
+
+.product-count .count-item {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Adjust spacing between elements within each item */
+}
+
+.product-count img {
+    height: 20px; /* Adjust icon size as needed */
+    width: auto;
+}
+
+.product-count .p-counter {
+    font-weight: bold;
+}
+
+.product-count .lang {
+    color: #666; /* Adjust text color as needed */
+}
+</style>
+</head>
+
+
 <?php 
-include 'includes/header.php';
 
 // Check if product ID is provided
 if (!isset($_GET['id'])) {
@@ -31,264 +163,367 @@ if (isset($_SESSION['user_id'])) {
 }
 ?>
 
-<main class="container py-8">
-    <div class="mb-4">
-        <a href="<?php echo BASE_URL; ?>products" class="text-blue-600 hover:underline inline-flex items-center">
-            <i class="fas fa-arrow-left mr-2"></i> Back to Products
-        </a>
-    </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Product Images -->
-        <div>
-            <div class="bg-white p-4 rounded-lg shadow-sm">
-                <div class="aspect-square overflow-hidden rounded-lg">
-                    <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>"
-                        class="w-full h-full object-cover">
-                </div>
-            </div>
-        </div>
-
-        <!-- Product Info -->
-        <div>
-            <div class="mb-4">
-                <span class="text-sm text-gray-500"><?php echo $product['category_name']; ?></span>
-                <h1 class="text-2xl lg:text-3xl font-bold"><?php echo $product['name']; ?></h1>
-            </div>
-
-            <div class="mb-4">
-                <div class="flex items-center mb-2">
-                    <div class="flex text-yellow-400 mr-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <span class="text-gray-600">4.5 (24 reviews)</span>
-                </div>
-
-                <p class="text-2xl font-bold text-gray-900">
-                    $<?php echo number_format($product['price'], 2); ?>
-                </p>
-            </div>
-
-            <div class="mb-6">
-                <div class="flex items-center mb-4">
-                    <div
-                        class="w-2 h-2 rounded-full mr-2 <?php echo $product['stock'] > 0 ? 'bg-green-500' : 'bg-red-500'; ?>">
-                    </div>
-                    <span class="<?php echo $product['stock'] > 0 ? 'text-green-600' : 'text-red-600'; ?>">
-                        <?php 
-                        if ($product['stock'] === 0) {
-                            echo 'Out of Stock';
-                        } elseif ($product['stock'] < 5) {
-                            echo 'Low Stock - Only ' . $product['stock'] . ' left';
-                        } else {
-                            echo 'In Stock';
-                        }
-                        ?>
-                    </span>
-                </div>
-
-                <p class="text-gray-700">
-                    <?php echo $product['description']; ?>
-                </p>
-            </div>
-
-            <?php if (!empty($product['brand']) || !empty($product['color'])): ?>
-            <div class="mb-6">
-                <h3 class="font-semibold mb-2">Product Details</h3>
-                <ul class="space-y-1 text-gray-600">
-                    <?php if (!empty($product['brand'])): ?>
-                    <li>Brand: <?php echo $product['brand']; ?></li>
-                    <?php endif; ?>
-                    <?php if (!empty($product['color'])): ?>
-                    <li>Color: <?php echo $product['color']; ?></li>
-                    <?php endif; ?>
-                    <?php if (!empty($product['age_range'])): ?>
-                    <li>Age Range: <?php echo $product['age_range']; ?></li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-            <?php endif; ?>
-
-            <!-- Add to Cart Section -->
-            <div class="flex items-start space-x-4">
-                <div class="cart-qty mb-4">
-                    <button class="cart-qty-btn" data-action="dec">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <input type="number" id="product-quantity" value="1" min="1" max="<?php echo $product['stock']; ?>"
-                        class="cart-qty-value" <?php echo $product['stock'] === 0 ? 'disabled' : ''; ?>>
-                    <button class="cart-qty-btn" data-action="inc">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-
-                <button class="btn btn-primary add-to-cart-btn" data-id="<?php echo $product['id']; ?>"
-                    <?php echo $product['stock'] === 0 ? 'disabled' : ''; ?>>
-                    <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
-                </button>
-
-                <button class="btn btn-outline btn-icon wishlist-btn <?php echo $isInWishlist ? 'active' : ''; ?>"
-                    data-id="<?php echo $product['id']; ?>">
-                    <i class="fas fa-heart"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Product Tabs -->
-    <div class="mt-12">
-        <div class="border-b border-gray-200 mb-4">
-            <ul class="flex flex-wrap -mb-px">
-                <li class="mr-2">
-                    <a href="#description"
-                        class="inline-block p-4 border-b-2 border-blue-600 font-medium text-blue-600">
-                        Description
-                    </a>
-                </li>
-                <li class="mr-2">
-                    <a href="#details"
-                        class="inline-block p-4 border-b-2 border-transparent font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                        Details
-                    </a>
-                </li>
-                <li class="mr-2">
-                    <a href="#reviews"
-                        class="inline-block p-4 border-b-2 border-transparent font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                        Reviews
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div id="description" class="bg-white p-6 rounded-lg shadow-sm">
-            <h2 class="text-lg font-semibold mb-4">Product Description</h2>
-            <p class="text-gray-700">
-                <?php echo $product['description']; ?>
-            </p>
-
-            <!-- Add more detailed description here -->
-            <p class="text-gray-700 mt-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
-                mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
-                eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui.
-            </p>
-
-            <div class="mt-6">
-                <h3 class="font-semibold mb-2">Features</h3>
-                <ul class="list-disc pl-5 space-y-1 text-gray-700">
-                    <li>High-quality materials</li>
-                    <li>Durable construction</li>
-                    <li>Elegant design</li>
-                    <li>Easy to use</li>
-                    <li>Versatile functionality</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Related Products -->
-    <div class="mt-12">
-        <h2 class="text-2xl font-bold mb-6">You May Also Like</h2>
-
-        <?php
-        // Get related products (same category)
-        $relatedProducts = $productModel->getAll(1, 4, $product['category_name']);
-        ?>
-
-        <div class="product-grid">
-            <?php foreach ($relatedProducts as $relProduct): ?>
-            <?php if ($relProduct['id'] !== $product['id']): ?>
-            <div class="product-card">
-                <a href="<?php echo BASE_URL; ?>product?id=<?php echo $relProduct['id']; ?>" class="product-image">
-                    <img src="<?php echo $relProduct['image']; ?>" alt="<?php echo $relProduct['name']; ?>">
+<body class="theme-color4 light ltr">
+    
+<header>
+        <div class="header-main">
+            <div class="container">
+                <a href="<?php echo BASE_URL; ?>" class="header-logo">
+                    <img src="<?php echo BASE_URL; ?>assets/images/logo/logo.svg" alt="Anon's logo" width="120"
+                        height="36">
                 </a>
 
-                <div class="product-content">
-                    <div class="product-category"><?php echo $relProduct['category_name']; ?></div>
-                    <h3 class="product-title">
-                        <a href="<?php echo BASE_URL; ?>product?id=<?php echo $relProduct['id']; ?>">
-                            <?php echo $relProduct['name']; ?>
-                        </a>
-                    </h3>
-                    <p class="product-price">$<?php echo number_format($relProduct['price'], 2); ?></p>
-                </div>
+                <div class="header-search-container">
+                    <form action="<?php echo BASE_URL; ?>search" method="GET">
+                        <input type="search" name="search" class="search-field" placeholder="Enter your product name..."
+                            value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+                        <button type="submit" class="search-btn">
+                            <ion-icon name="search-outline"></ion-icon>
+                        </button>
+                    </form>
 
-                <div class="product-footer">
-                    <button class="btn btn-primary add-to-cart-btn" data-id="<?php echo $relProduct['id']; ?>"
-                        <?php echo $relProduct['stock'] === 0 ? 'disabled' : ''; ?>>
-                        <i class="fas fa-shopping-cart"></i> Add to Cart
-                    </button>
-                    <button class="btn btn-outline btn-icon wishlist-btn" data-id="<?php echo $relProduct['id']; ?>">
-                        <i class="fas fa-heart"></i>
-                    </button>
+                </div>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="<?php echo BASE_URL; ?>logout.php" class="text-red-600 hover:underline">Logout</a>
+                <?php endif; ?>
+                <div class="header-user-actions">
+                    <?php if (!empty($is_logged_in)): ?>
+                    <a href="<?php echo BASE_URL; ?>account" class="action-btn">
+                        <ion-icon name="person-outline"></ion-icon>
+                    </a>
+                    <?php else: ?>
+                    <a href="<?php echo BASE_URL; ?>login" class="action-btn">
+                        <ion-icon name="person-outline"></ion-icon>
+                    </a>
+                    <?php endif; ?>
+
+                    <a href="<?php echo BASE_URL; ?>wishlist" class="action-btn">
+                        <ion-icon name="heart-outline"></ion-icon>
+                        <span class="count"><?php echo $wishlist_count; ?></span>
+                    </a>
+
+                    <a href="<?php echo BASE_URL; ?>cart" class="action-btn">
+                        <ion-icon name="bag-handle-outline"></ion-icon>
+                        <span class="count"><?php echo $cart_count; ?></span>
+                    </a>
                 </div>
             </div>
-            <?php endif; ?>
-            <?php endforeach; ?>
+        </div>
+
+
+    </header>
+
+   
+    <section class="breadcrumb-section section-b-space" style="padding-top:20px;padding-bottom:20px;">
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3><?php echo $product['name']; ?></h3>
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="../index.htm">
+                                    <i class="fas fa-home"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Product Details</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section> <!-- Shop Section start -->
+
+    <section>
+        <div class="container">
+            <div class="row gx-4 gy-5">
+                <div class="col-lg-12 col-12">
+                    <div class="details-items">
+                        <div class="row g-4">
+                        <div class="col-md-6">
+    <div class="row">
+        <!-- Thumbnail Images -->
+        <div class="col-lg-2">
+            <div class="details-image-vertical black-slide rounded">
+                <div>
+                    <img 
+                        src="<?php echo BASE_URL; ?>assets/images/products/<?php echo htmlspecialchars($product['image']); ?>"
+                        class="img-fluid blur-up lazyload" 
+                        alt="<?php echo htmlspecialchars($product['name']); ?>">
+                </div>
+                
+                <?php if (!empty($product['image_hover'])): ?>
+                <div>
+                    <img 
+                        src="<?php echo BASE_URL; ?>assets/images/products/<?php echo htmlspecialchars($product['image_hover']); ?>"
+                        class="img-fluid blur-up lazyload" 
+                        alt="<?php echo htmlspecialchars($product['name']); ?> (Hover)">
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <!-- Main Image and Hover Image -->
+        <div class="col-lg-10">
+            <div class="details-image-1 ratio_asos">
+                <div>
+                    <img 
+                        src="<?php echo BASE_URL; ?>assets/images/products/<?php echo htmlspecialchars($product['image']); ?>" 
+                        id="zoom_01" 
+                        data-zoom-image="<?php echo BASE_URL; ?>assets/images/products/<?php echo htmlspecialchars($product['image']); ?>" 
+                        class="img-fluid w-100 image_zoom_cls-0 blur-up lazyload" 
+                        alt="<?php echo htmlspecialchars($product['name']); ?>">
+                </div>
+                
+                <?php if (!empty($product['image_hover'])): ?>
+                <div>
+                    <img 
+                        src="<?php echo BASE_URL; ?>assets/images/products/<?php echo htmlspecialchars($product['image_hover']); ?>" 
+                        id="zoom_02" 
+                        data-zoom-image="<?php echo BASE_URL; ?>assets/images/products/<?php echo htmlspecialchars($product['image_hover']); ?>" 
+                        class="img-fluid w-100 image_zoom_cls-1 blur-up lazyload" 
+                        alt="<?php echo htmlspecialchars($product['name']); ?> (Hover)">
+                </div>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
-</main>
+</div>
 
+
+                            <div class="col-md-6">
+                                <div class="cloth-details-size">
+                                <div class="product-count">
+    <ul style="display: flex; list-style: none; padding: 0; margin: 0; gap: 20px;">
+        <li style="display: flex; align-items: center; gap: 8px;">
+            <img src="<?php echo BASE_URL; ?>/assets2/images/gif/fire.gif"
+                 class="img-fluid blur-up lazyload" alt="image">
+            <span class="p-counter">37</span>
+            <span class="lang">orders in last 24 hours</span>
+        </li>
+        <li style="display: flex; align-items: center; gap: 8px;">
+            <img src="<?php echo BASE_URL; ?>/assets2/images/gif/person.gif"
+                 class="img-fluid user_img blur-up lazyload" alt="image">
+            <span class="p-counter">44</span>
+            <span class="lang">active view this</span>
+        </li>
+    </ul>
+</div>
+
+                                    <div class="details-image-concept">
+                                        <h2><?php echo $product['name']; ?></h2>
+                                    </div>
+
+                                    <div class="label-section">
+                                        <span class="badge badge-grey-color">#1 Best seller</span>
+                                        <span class="label-text">in <?php echo $product['category_name']; ?></span>
+                                    </div>
+                                    <?php if (!empty($product['brand']) || !empty($product['color'])): ?>
+
+                                    <h3 class="font-semibold mb-2">Product Details : </h3>
+                                    <?php if (!empty($product['brand'])): ?>
+                                    <div class="label-section">
+                                        <span class="badge badge-grey-color">Brand  </span> 
+                                        <span class="label-text"> <?php echo $product['brand']; ?></span>
+                                    </div>
+                                    <?php endif; ?>
+
+                                    <?php if (!empty($product['color'])): ?>
+                                    <div class="label-section">
+                                        <span class="badge badge-grey-color">Color</span>
+                                        <span class="label-text"><?php echo $product['color']; ?></span>
+                                    </div>
+                                    <?php endif; ?>
+
+                                    <?php if (!empty($product['age_range'])): ?>
+                                    <div class="label-section">
+                                        <span class="badge badge-grey-color">Age Range</span>
+                                        <span class="label-text"><?php echo $product['age_range']; ?></span>
+                                    </div>
+                                    <?php endif; ?>
+
+                                        <?php endif; ?>
+
+                                    <h3 class="price-detail"> $<?php echo number_format($product['price'], 2); ?>
+                                    <del><?php echo number_format($product['original_price'], 2); ?></del><span>10% off</span>
+                                </h3>
+
+                                   
+                                <div id="selectSize" class="addeffect-section product-description border-product">
+    <h6 class="product-title product-title-2 d-block">Quantity</h6>
+
+    <div class="qty-box">
+        <div class="input-group">
+            <span class="input-group-prepend">
+                <button type="button" class="btn quantity-left-minus"
+                    onclick="updateQuantity(false)"
+                    data-type="minus" data-field="">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </span>
+            <input type="text" name="quantity" id="quantity"
+                class="form-control input-number" value="1" 
+                data-max="<?php echo $product['stock']; ?>">
+            <span class="input-group-prepend">
+                <button type="button" class="btn quantity-right-plus"
+                    onclick="updateQuantity(true)"
+                    data-type="plus" data-field="">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="product-buttons">
+    <!-- Wishlist Button -->
+    <form action="<?php echo BASE_URL; ?>wishlist_r.php" method="post" class="product-button-form">
+    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+    
+    <?php if ($isInWishlist): ?>
+        <input type="hidden" name="action" value="remove">
+        <button type="submit" class="btn btn-solid remove">
+            <i class="fa fa-bookmark fz-16 me-2"></i>
+            <span>Remove from Wishlist</span>
+        </button>
+    <?php else: ?>
+        <input type="hidden" name="action" value="add">
+        <button type="submit" class="btn btn-solid add">
+            <i class="fa fa-bookmark fz-16 me-2"></i>
+            <span>Add to Wishlist</span>
+        </button>
+    <?php endif; ?>
+</form>
+
+
+    <!-- Add to Cart Button -->
+    <form action="<?php echo BASE_URL; ?>cart" method="post" class="product-button-form">
+        <input type="hidden" name="action" value="add">
+        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+        <input type="hidden" name="quantity" id="cart-quantity" value="1">
+        <button type="submit" class="btn btn-solid hover-solid btn-animation">
+            <i class="fa fa-shopping-cart"></i>
+            <span>Add to Cart</span>
+        </button>
+    </form>
+</div>
+                                   
+<ul class="product-count shipping-order">
+    <li>
+        <img src="<?php echo BASE_URL; ?>/assets2/images/gif/truck.png" 
+             class="img-fluid blur-up lazyload" alt="image">
+        <span class="lang">Free shipping for orders above $500 USD</span>
+    </li>
+</ul>
+
+<!-- Stock and Timer -->
+<div class="mt-2 mt-md-3 border-product">
+    <h6 class="product-title hurry-title d-block">
+        Hurry Up! Only <span><?php echo $product['stock']; ?></span> left in stock
+    </h6>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" 
+             style="width: <?php echo ($product['stock'] / 100) * 100; ?>%">
+        </div>
+    </div>
+
+                                    </div>
+
+                                    <div class="border-product">
+                                        <h6 class="product-title d-block">share it</h6>
+                                        <div class="product-icon">
+                                            <ul class="product-social">
+                                                <li>
+                                                    <a href="https://www.facebook.com/">
+                                                        <i class="fab fa-facebook-f"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://www.google.com/">
+                                                        <i class="fab fa-google-plus-g"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://twitter.com/">
+                                                        <i class="fab fa-twitter"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://www.instagram.com/">
+                                                        <i class="fab fa-instagram"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="pe-0">
+                                                    <a href="https://www.google.com/">
+                                                        <i class="fas fa-rss"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+    <script src="<?php echo BASE_URL; ?>/assets2/js/jquery-3.5.1.min.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/feather/feather.min.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/lazysizes.min.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/slick/slick.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/slick/slick-animation.min.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/slick/custom_slick.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/price-filter.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/ion.rangeSlider.min.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/filter.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/newsletter.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/cart_modal_resize.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/bootstrap/bootstrap-notify.min.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/theme-setting.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets2/js/script.js"></script>
+    <script>
+        $(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip()
+        });
+    </script>
 <script>
-// Product quantity buttons
-document.addEventListener('DOMContentLoaded', function() {
-    const qtyBtns = document.querySelectorAll('.cart-qty-btn');
-    const qtyInput = document.getElementById('product-quantity');
-
-    if (qtyInput) {
-        qtyBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const currentValue = parseInt(qtyInput.value);
-
-                if (this.dataset.action === 'inc') {
-                    const max = parseInt(qtyInput.getAttribute('max'));
-                    if (currentValue < max) {
-                        qtyInput.value = currentValue + 1;
-                    }
-                } else if (this.dataset.action === 'dec' && currentValue > 1) {
-                    qtyInput.value = currentValue - 1;
-                }
-            });
-        });
+function updateQuantity(isIncrement) {
+    const quantityInput = document.getElementById('quantity');
+    const cartQuantityInput = document.getElementById('cart-quantity');
+    const maxQuantity = parseInt(quantityInput.getAttribute('data-max'));
+    let currentQuantity = parseInt(quantityInput.value);
+    
+    // Calculate the new quantity
+    let newQuantity = currentQuantity;
+    if (isIncrement && currentQuantity < maxQuantity) {
+        newQuantity++;
+    } else if (!isIncrement && currentQuantity > 1) {
+        newQuantity--;
     }
 
-    // Add to cart with quantity
-    const addToCartBtn = document.querySelector('.add-to-cart-btn');
-    if (addToCartBtn) {
-        addToCartBtn.addEventListener('click', function() {
-            const productId = this.dataset.id;
-            const quantity = qtyInput ? qtyInput.value : 1;
-
-            fetch('<?php echo BASE_URL; ?>controllers/CartController.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'action=add&product_id=' + productId + '&quantity=' + quantity
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showToast('Product added to cart!');
-                        // Update cart count
-                        const cartCount = document.querySelector('.cart-count');
-                        if (cartCount) {
-                            cartCount.textContent = data.count;
-                        }
-                    } else {
-                        showToast('Error: ' + data.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    showToast('Error: Could not add product to cart', 'error');
-                });
-        });
-    }
-});
+    // Set the correct quantity immediately
+    quantityInput.value = newQuantity;
+    cartQuantityInput.value = newQuantity;
+}
 </script>
 
-<?php include 'includes/footer.php'; ?>
+<script src="./assets/js/script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

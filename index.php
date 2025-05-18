@@ -52,6 +52,7 @@ $router->get('home2', 'views/includes/home2.php');
 $router->get('search', 'views/product_list.php');
 
 
+
 // Handle form submissions
 $router->post('login', 'views/login.php');
 $router->post('register', 'views/register.php');
