@@ -364,29 +364,40 @@ if (isset($_SESSION['user_id'])) {
                                    
                                 <div id="selectSize" class="addeffect-section product-description border-product">
     <h6 class="product-title product-title-2 d-block">Quantity</h6>
+        <form action="<?php echo BASE_URL; ?>cart" method="post" class="quantity-form"  id="cart-form">
+            <input type="hidden" name="action" value="add">
+            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+            
+            <div class="qty-box">
+                <div class="input-group">
+                    <span class="input-group-prepend">
+                        <button type="button" class="btn quantity-left-minus" 
+                            onclick="adjustQuantity(this, -1)" 
+                            data-type="minus">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </span>
+                    
+                    <input type="number" name="quantity" class="form-control input-number" 
+                        value="1" min="1" 
+                        max="<?php echo $product['stock']; ?>">
+                    
+                    <span class="input-group-append">
+                        <button type="button" class="btn quantity-right-plus" 
+                            onclick="adjustQuantity(this, 1)" 
+                            data-type="plus">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </form>
+        <div class="product-buttons">
 
-    <div class="qty-box">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <button type="button" class="btn quantity-left-minus"
-                    onclick="updateQuantity(false)"
-                    data-type="minus" data-field="">
-                    <i class="fas fa-minus"></i>
-                </button>
-            </span>
-            <input type="text" name="quantity" id="quantity"
-                class="form-control input-number" value="1" 
-                data-max="<?php echo $product['stock']; ?>">
-            <span class="input-group-prepend">
-                <button type="button" class="btn quantity-right-plus"
-                    onclick="updateQuantity(true)"
-                    data-type="plus" data-field="">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </span>
-        </div>
     </div>
 </div>
+
+
 
 <div class="product-buttons">
     <!-- Wishlist Button -->
@@ -410,15 +421,13 @@ if (isset($_SESSION['user_id'])) {
 
 
     <!-- Add to Cart Button -->
-    <form action="<?php echo BASE_URL; ?>cart" method="post" class="product-button-form">
-        <input type="hidden" name="action" value="add">
-        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-        <input type="hidden" name="quantity" id="cart-quantity" value="1">
-        <button type="submit" class="btn btn-solid hover-solid btn-animation">
+       <!-- we used the "form" to have a link with our upper form that has the id of also "cart-form" -->
+
+        <button type="submit" class="btn btn-solid hover-solid btn-animation"  form="cart-form">
             <i class="fa fa-shopping-cart"></i>
             <span>Add to Cart</span>
         </button>
-    </form>
+
 </div>
                                    
 <ul class="product-count shipping-order">
@@ -501,25 +510,18 @@ if (isset($_SESSION['user_id'])) {
         });
     </script>
 <script>
-function updateQuantity(isIncrement) {
-    const quantityInput = document.getElementById('quantity');
-    const cartQuantityInput = document.getElementById('cart-quantity');
-    const maxQuantity = parseInt(quantityInput.getAttribute('data-max'));
-    let currentQuantity = parseInt(quantityInput.value);
+// Quantity adjustment without auto-submission
+function adjustQuantity(button, delta) {
+    const form = button.closest('form');
+    const quantityInput = form.querySelector('input[name="quantity"]');
+    const currentQuantity = parseInt(quantityInput.value) || 1;
+    const newQuantity = Math.max(1, currentQuantity + delta);
     
-    // Calculate the new quantity
-    let newQuantity = currentQuantity;
-    if (isIncrement && currentQuantity < maxQuantity) {
-        newQuantity++;
-    } else if (!isIncrement && currentQuantity > 1) {
-        newQuantity--;
-    }
-
-    // Set the correct quantity immediately
+    // Update the input value
     quantityInput.value = newQuantity;
-    cartQuantityInput.value = newQuantity;
 }
 </script>
+
 
 <script src="./assets/js/script.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

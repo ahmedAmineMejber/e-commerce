@@ -50,10 +50,11 @@ $router->get('test', 'test_header.php');
 $router->get('index1', 'index1.php');
 $router->get('home2', 'views/includes/home2.php');
 $router->get('search', 'views/product_list.php');
+$router->get('cart2', 'views/cart2.php');
 
 
 
-// Handle form submissions
+// Handle form submissions 
 $router->post('login', 'views/login.php');
 $router->post('register', 'views/register.php');
 $router->post('checkout', 'controllers/CheckoutController.php');
