@@ -2,223 +2,224 @@
       - TESTIMONIALS, CTA & SERVICE
     -->
 
-  
-
-<footer>
 
 
-<div class="footer-nav">
+  <footer>
 
-  <div class="container">
 
-    <ul class="footer-nav-list">
+      <div class="footer-nav">
 
-      <li class="footer-nav-item">
-        <h2 class="nav-title">Popular Categories</h2>
-      </li>
+          <div class="container">
 
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Fashion</a>
-      </li>
+              <ul class="footer-nav-list">
 
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Electronic</a>
-      </li>
+                  <li class="footer-nav-item">
+                      <h2 class="nav-title">Popular Categories</h2>
+                  </li>
 
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Cosmetic</a>
-      </li>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Fashion</a>
+                  </li>
 
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Health</a>
-      </li>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Electronic</a>
+                  </li>
 
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Watches</a>
-      </li>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Cosmetic</a>
+                  </li>
 
-    </ul>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Health</a>
+                  </li>
 
-    <ul class="footer-nav-list">
-    
-      <li class="footer-nav-item">
-        <h2 class="nav-title">Products</h2>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Prices drop</a>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">New products</a>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Best sales</a>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Contact us</a>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Sitemap</a>
-      </li>
-    
-    </ul>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Watches</a>
+                  </li>
 
-    <ul class="footer-nav-list">
-    
-      <li class="footer-nav-item">
-        <h2 class="nav-title">Our Company</h2>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Delivery</a>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Legal Notice</a>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Terms and conditions</a>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">About us</a>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Secure payment</a>
-      </li>
-    
-    </ul>
+              </ul>
 
-    <ul class="footer-nav-list">
-    
-      <li class="footer-nav-item">
-        <h2 class="nav-title">Services</h2>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Prices drop</a>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">New products</a>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Best sales</a>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Contact us</a>
-      </li>
-    
-      <li class="footer-nav-item">
-        <a href="#" class="footer-nav-link">Sitemap</a>
-      </li>
-    
-    </ul>
+              <ul class="footer-nav-list">
 
-    <ul class="footer-nav-list">
+                  <li class="footer-nav-item">
+                      <h2 class="nav-title">Products</h2>
+                  </li>
 
-      <li class="footer-nav-item">
-        <h2 class="nav-title">Contact</h2>
-      </li>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Prices drop</a>
+                  </li>
 
-      <li class="footer-nav-item flex">
-        <div class="icon-box">
-          <ion-icon name="location-outline"></ion-icon>
-        </div>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">New products</a>
+                  </li>
 
-        <address class="content">
-          419 State 414 Rte
-          Beaver Dams, New York(NY), 14812, USA
-        </address>
-      </li>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Best sales</a>
+                  </li>
 
-      <li class="footer-nav-item flex">
-        <div class="icon-box">
-          <ion-icon name="call-outline"></ion-icon>
-        </div>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Contact us</a>
+                  </li>
 
-        <a href="tel:+607936-8058" class="footer-nav-link">(607) 936-8058</a>
-      </li>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Sitemap</a>
+                  </li>
 
-      <li class="footer-nav-item flex">
-        <div class="icon-box">
-          <ion-icon name="mail-outline"></ion-icon>
-        </div>
+              </ul>
 
-        <a href="mailto:example@gmail.com" class="footer-nav-link">example@gmail.com</a>
-      </li>
+              <ul class="footer-nav-list">
 
-    </ul>
+                  <li class="footer-nav-item">
+                      <h2 class="nav-title">Our Company</h2>
+                  </li>
 
-    <ul class="footer-nav-list">
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Delivery</a>
+                  </li>
 
-      <li class="footer-nav-item">
-        <h2 class="nav-title">Follow Us</h2>
-      </li>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Legal Notice</a>
+                  </li>
 
-      <li>
-        <ul class="social-link">
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Terms and conditions</a>
+                  </li>
 
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">
-              <ion-icon name="logo-facebook"></ion-icon>
-            </a>
-          </li>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">About us</a>
+                  </li>
 
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">
-              <ion-icon name="logo-twitter"></ion-icon>
-            </a>
-          </li>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Secure payment</a>
+                  </li>
 
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">
-              <ion-icon name="logo-linkedin"></ion-icon>
-            </a>
-          </li>
+              </ul>
 
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">
-              <ion-icon name="logo-instagram"></ion-icon>
-            </a>
-          </li>
+              <ul class="footer-nav-list">
 
-        </ul>
-      </li>
+                  <li class="footer-nav-item">
+                      <h2 class="nav-title">Services</h2>
+                  </li>
 
-    </ul>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Prices drop</a>
+                  </li>
 
-  </div>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">New products</a>
+                  </li>
 
-</div>
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Best sales</a>
+                  </li>
 
-<div class="footer-bottom">
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Contact us</a>
+                  </li>
 
-  <div class="container">
+                  <li class="footer-nav-item">
+                      <a href="#" class="footer-nav-link">Sitemap</a>
+                  </li>
 
-    <img src="./assets/images/payment.png" alt="payment method" class="payment-img">
+              </ul>
 
-    <p class="copyright">
-      Copyright &copy; <a href="#">Anon</a> all rights reserved.
-    </p>
+              <ul class="footer-nav-list">
 
-  </div>
+                  <li class="footer-nav-item">
+                      <h2 class="nav-title">Contact</h2>
+                  </li>
 
-</div>
+                  <li class="footer-nav-item flex">
+                      <div class="icon-box">
+                          <ion-icon name="location-outline"></ion-icon>
+                      </div>
 
-</footer>
+                      <address class="content">
+                          419 State 414 Rte
+                          Beaver Dams, New York(NY), 14812, USA
+                      </address>
+                  </li>
 
-    
-        <script src="./assets/js/script.js"></script>
-        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-</body>
-</html>
+                  <li class="footer-nav-item flex">
+                      <div class="icon-box">
+                          <ion-icon name="call-outline"></ion-icon>
+                      </div>
+
+                      <a href="tel:+607936-8058" class="footer-nav-link">(607) 936-8058</a>
+                  </li>
+
+                  <li class="footer-nav-item flex">
+                      <div class="icon-box">
+                          <ion-icon name="mail-outline"></ion-icon>
+                      </div>
+
+                      <a href="mailto:example@gmail.com" class="footer-nav-link">example@gmail.com</a>
+                  </li>
+
+              </ul>
+
+              <ul class="footer-nav-list">
+
+                  <li class="footer-nav-item">
+                      <h2 class="nav-title">Follow Us</h2>
+                  </li>
+
+                  <li>
+                      <ul class="social-link">
+
+                          <li class="footer-nav-item">
+                              <a href="#" class="footer-nav-link">
+                                  <ion-icon name="logo-facebook"></ion-icon>
+                              </a>
+                          </li>
+
+                          <li class="footer-nav-item">
+                              <a href="#" class="footer-nav-link">
+                                  <ion-icon name="logo-twitter"></ion-icon>
+                              </a>
+                          </li>
+
+                          <li class="footer-nav-item">
+                              <a href="#" class="footer-nav-link">
+                                  <ion-icon name="logo-linkedin"></ion-icon>
+                              </a>
+                          </li>
+
+                          <li class="footer-nav-item">
+                              <a href="#" class="footer-nav-link">
+                                  <ion-icon name="logo-instagram"></ion-icon>
+                              </a>
+                          </li>
+
+                      </ul>
+                  </li>
+
+              </ul>
+
+          </div>
+
+      </div>
+
+      <div class="footer-bottom">
+
+          <div class="container">
+
+              <img src="./assets/images/payment.png" alt="payment method" class="payment-img">
+
+              <p class="copyright">
+                  Copyright &copy; <a href="#">Anon</a> all rights reserved.
+              </p>
+
+          </div>
+
+      </div>
+
+  </footer>
+
+
+  <script src="./assets/js/script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  </body>
+
+  </html>

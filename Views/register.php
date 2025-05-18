@@ -1,4 +1,3 @@
-
 <?php include 'views/includes/header.php';
 
 // Check if form is submitted
@@ -42,69 +41,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1>Create an Account</h1>
             <p>Enter your details to sign up for a new account</p>
         </div>
-        
+
         <?php if ($error): ?>
-            <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-                <?php echo $error; ?>
-            </div>
+        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+            <?php echo $error; ?>
+        </div>
         <?php endif; ?>
-        
+
         <form method="POST" action="">
             <div class="form-group">
                 <label for="name" class="form-label">Full Name</label>
-                <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    placeholder="John Doe"
-                    class="form-input"
-                    required
-                >
+                <input id="name" name="name" type="text" placeholder="John Doe" class="form-input" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="email" class="form-label">Email</label>
-                <input
-                    id="email"
-                    name="email"
-                    type="email" 
-                    placeholder="name@example.com"
-                    class="form-input"
-                    required
-                >
+                <input id="email" name="email" type="email" placeholder="name@example.com" class="form-input" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="password" class="form-label">Password</label>
-                <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    class="form-input"
-                    required
-                >
+                <input id="password" name="password" type="password" class="form-input" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    class="form-input"
-                    required
-                >
+                <input id="confirmPassword" name="confirmPassword" type="password" class="form-input" required>
             </div>
-            
+
             <div class="form-group">
                 <div class="flex items-center">
-                    <input
-                        id="agreeToTerms"
-                        name="agreeToTerms"
-                        type="checkbox"
-                        class="form-checkbox"
-                        required
-                    >
+                    <input id="agreeToTerms" name="agreeToTerms" type="checkbox" class="form-checkbox" required>
                     <label for="agreeToTerms" class="ml-2">
                         I agree to the
                         <a href="<?php echo BASE_URL; ?>terms" class="text-blue-600 hover:underline">
@@ -117,11 +84,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </label>
                 </div>
             </div>
-            
+
             <button type="submit" class="btn btn-primary w-full mb-4">
                 Create Account
             </button>
-            
+
             <div class="relative mb-6">
                 <div class="absolute inset-0 flex items-center">
                     <div class="w-full border-t border-gray-200"></div>
@@ -130,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <span class="bg-white px-2 text-gray-500">Or sign up with</span>
                 </div>
             </div>
-            
+
             <div class="grid grid-cols-2 gap-4 mb-6">
                 <button type="button" class="btn btn-outline flex justify-center items-center">
                     <i class="fab fa-google mr-2"></i> Google
@@ -139,9 +106,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <i class="fab fa-facebook-f mr-2"></i> Facebook
                 </button>
             </div>
-            
+
             <p class="text-center">
-                Already have an account? 
+                Already have an account?
                 <a href="<?php echo BASE_URL; ?>login" class="text-blue-600 font-medium hover:underline">
                     Sign in
                 </a>

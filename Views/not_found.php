@@ -1,4 +1,3 @@
-
 <?php include 'views/includes/header.php'; ?>
 
 <main class="container py-16 text-center">
