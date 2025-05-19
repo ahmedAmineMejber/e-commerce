@@ -33,6 +33,21 @@ define('BASE_URL', '/E-commerceP/');
 require_once 'router.php';
 $router = new Router();
 
+// Admin routes
+$router->get('admin/manage-products', 'views/admin/manage_products.php');
+$router->get('admin/manage-products/add', 'views/admin/product_form.php');
+$router->get('admin/manage-products/edit', 'views/admin/product_form.php');
+$router->get('admin/manage-categories', 'views/admin/manage_categories.php');
+$router->get('admin/manage-users', 'views/admin/manage_users.php');
+$router->get('admin/orders', 'views/admin/orders.php');
+$router->get('admin/orders/view', 'views/admin/order_detail.php');
+$router->get('admin/user-details', 'views/admin/user_detail.php');
+$router->get('admin/user-orders', 'views/admin/user_orders.php');
+
+// Order routes
+$router->get('orders', 'views/orders.php');
+$router->get('order-details', 'views/order_detail.php');
+
 // Define your routes
 $router->get('', 'views/includes/home2.php');
 $router->get('home', 'views/includes/home.php');
@@ -50,14 +65,13 @@ $router->get('test', 'test_header.php');
 $router->get('index1', 'index1.php');
 $router->get('home2', 'views/includes/home2.php');
 $router->get('search', 'views/product_list.php');
-$router->get('cart2', 'views/cart2.php');
 
 
 
 // Handle form submissions 
 $router->post('login', 'views/login.php');
 $router->post('register', 'views/register.php');
-$router->post('checkout', 'controllers/CheckoutController.php');
+$router->post('checkout', 'views/checkout.php');
 $router->post('wishlist', 'controllers/WishlistController.php');
 $router->post('cart', 'controllers/CartController.php');
 

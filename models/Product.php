@@ -16,9 +16,11 @@ class Product {
     public $color;
     public $age_range;
     public $image;
+    public $image_hover;
     public $stock;
     public $description;
     public $status;
+    public $is_featured;
     
     public function __construct() {
         $database = new Database();
@@ -28,9 +30,9 @@ class Product {
     // Create product
     public function create($productData) {
         $query = "INSERT INTO " . $this->table . " 
-            (id, admin_id, category_id, name, price, brand, color, age_range, image, stock, description, status) 
+            (id, admin_id, category_id, name, price, brand, color, age_range, image, image_hover, stock, description, status, is_featured) 
             VALUES 
-            (:id, :admin_id, :category_id, :name, :price, :brand, :color, :age_range, :image, :stock, :description, :status)";
+            (:id, :admin_id, :category_id, :name, :price, :brand, :color, :age_range, :image, :image_hover, :stock, :description, :status, :is_featured)";
         
         $stmt = $this->conn->prepare($query);
         
@@ -44,9 +46,11 @@ class Product {
         $this->color = htmlspecialchars(strip_tags($productData['color']));
         $this->age_range = htmlspecialchars(strip_tags($productData['age_range']));
         $this->image = htmlspecialchars(strip_tags($productData['image']));
+        $this->image_hover = htmlspecialchars(strip_tags($productData['image_hover'] ?? ''));
         $this->stock = htmlspecialchars(strip_tags($productData['stock']));
         $this->description = htmlspecialchars(strip_tags($productData['description']));
         $this->status = htmlspecialchars(strip_tags($productData['status']));
+        $this->is_featured = isset($productData['featured']) ? 1 : 0;
         
         // Bind data
         $stmt->bindParam(':id', $this->id);
@@ -58,9 +62,11 @@ class Product {
         $stmt->bindParam(':color', $this->color);
         $stmt->bindParam(':age_range', $this->age_range);
         $stmt->bindParam(':image', $this->image);
+        $stmt->bindParam(':image_hover', $this->image_hover);
         $stmt->bindParam(':stock', $this->stock);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':status', $this->status);
+        $stmt->bindParam(':is_featured', $this->is_featured);
         
         try {
             if ($stmt->execute()) {
@@ -169,8 +175,9 @@ class Product {
     }
     
     // Get featured products
-    public function getFeaturedProducts($limit = 4) {
-
+    public function getFeaturedProducts($limit) {
+        // For demo purposes, we'll just get the latest products
+        // In a real app, you might have a 'featured' flag or other criteria
         $query = "SELECT p.*, c.name as category FROM " . $this->table . " p
                   LEFT JOIN categories c ON p.category_id = c.id
                   WHERE p.status = 'active'
@@ -192,10 +199,12 @@ class Product {
             brand = :brand, 
             color = :color, 
             age_range = :age_range, 
-            image = :image, 
+            image = :image,
+            image_hover = :image_hover, 
             stock = :stock, 
             description = :description, 
-            status = :status 
+            status = :status,
+            is_featured = :is_featured 
             WHERE id = :id";
         
         $stmt = $this->conn->prepare($query);
@@ -209,9 +218,11 @@ class Product {
         $this->color = htmlspecialchars(strip_tags($productData['color']));
         $this->age_range = htmlspecialchars(strip_tags($productData['age_range']));
         $this->image = htmlspecialchars(strip_tags($productData['image']));
+        $this->image_hover = htmlspecialchars(strip_tags($productData['image_hover'] ?? ''));
         $this->stock = htmlspecialchars(strip_tags($productData['stock']));
         $this->description = htmlspecialchars(strip_tags($productData['description']));
         $this->status = htmlspecialchars(strip_tags($productData['status']));
+        $this->is_featured = isset($productData['featured']) ? 1 : 0;
         
         // Bind data
         $stmt->bindParam(':id', $this->id);
@@ -222,9 +233,30 @@ class Product {
         $stmt->bindParam(':color', $this->color);
         $stmt->bindParam(':age_range', $this->age_range);
         $stmt->bindParam(':image', $this->image);
+        $stmt->bindParam(':image_hover', $this->image_hover);
         $stmt->bindParam(':stock', $this->stock);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':status', $this->status);
+        $stmt->bindParam(':is_featured', $this->is_featured);
+        
+        try {
+            if ($stmt->execute()) {
+                return true;
+            }
+            return false;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+    
+    // Update product stock
+    public function updateStock($productId, $newStock) {
+        $query = "UPDATE " . $this->table . " SET stock = :stock WHERE id = :id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $productId);
+        $stmt->bindParam(':stock', $newStock);
         
         try {
             if ($stmt->execute()) {
@@ -272,6 +304,7 @@ class Product {
             return false;
         }
     }
+
 
     public function getDealOfTheDay($limit = 3) {
         $stmt = $this->conn->prepare("

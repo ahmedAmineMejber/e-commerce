@@ -44,6 +44,9 @@ public function handleRequest() {
         case 'remove':
             $this->removeFromCart($userId);
             break;
+            case 'removeAll':
+                $this->removeAllFromCart($userId);
+                break;
         default:
             $_SESSION['message'] = [
                 'type' => 'error',
@@ -173,7 +176,27 @@ private function removeFromCart($userId) {
     header("Location: " . $_SERVER['HTTP_REFERER']);
     exit;
 }
+private function removeAllFromCart($userId) {
 
+
+    // Remove from cart
+    $result = $this->cartModel->clearCart($userId);
+
+    if ($result['success']) {
+        $_SESSION['message'] = [
+            'type' => 'success',
+            'text' => 'Item removed from cart.'
+        ];
+    } else {
+        $_SESSION['message'] = [
+            'type' => 'error',
+            'text' => $result['message']
+        ];
+    }
+
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+    exit;
+}
     
     // Send JSON response
     private function sendJsonResponse($data) {

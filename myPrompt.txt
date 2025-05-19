@@ -168,6 +168,15 @@ CREATE TABLE `wishlist` (
   FOREIGN KEY (`product_id`) REFERENCES `products`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+ALTER TABLE orders 
+ADD COLUMN shipping_address VARCHAR(255),
+ADD COLUMN city VARCHAR(100),
+ADD COLUMN postal_code VARCHAR(20),
+ADD COLUMN country VARCHAR(100),
+ADD COLUMN card_number VARCHAR(16),
+ADD COLUMN card_expiry VARCHAR(5),
+ADD COLUMN method ENUM('credit_card', 'Cash') NOT NULL,
+ADD COLUMN card_cvc VARCHAR(4);
 COMMIT;
 
 
