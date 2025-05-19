@@ -224,18 +224,23 @@ $cart_count = $_SESSION['cart_count'];
 
                 </div>
                 <?php if (isset($_SESSION['user_id'])): ?>
-                <a href="<?php echo BASE_URL; ?>logout.php" class="text-red-600 hover:underline">Logout</a>
+                <a href="<?php echo BASE_URL; ?>logout" class="text-red-600 hover:underline">Logout</a>
                 <?php endif; ?>
                 <div class="header-user-actions">
-                    <?php if (!empty($is_logged_in)): ?>
-                    <a href="<?php echo BASE_URL; ?>account" class="action-btn">
-                        <ion-icon name="person-outline"></ion-icon>
-                    </a>
-                    <?php else: ?>
-                    <a href="<?php echo BASE_URL; ?>login" class="action-btn">
-                        <ion-icon name="person-outline"></ion-icon>
-                    </a>
-                    <?php endif; ?>
+                <div class="account-dropdown">
+    <a href="#" class="action-btn">
+        <ion-icon name="person-outline"></ion-icon>
+    </a>
+    <div class="dropdown-menu">
+        <?php if (!empty($is_logged_in)): ?>
+            <!-- <a href="<?php echo BASE_URL; ?>account">My Account</a> -->
+            <a href="<?php echo BASE_URL; ?>logout">Logout</a>
+        <?php else: ?>
+            <a href="<?php echo BASE_URL; ?>login">Login</a>
+            <a href="<?php echo BASE_URL; ?>register">Register</a>
+        <?php endif; ?>
+    </div>
+</div>
 
                     <a href="<?php echo BASE_URL; ?>wishlist" class="action-btn">
                         <ion-icon name="heart-outline"></ion-icon>

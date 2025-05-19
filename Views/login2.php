@@ -29,6 +29,13 @@ $cart_count = $_SESSION['cart_count'];
 
 <?php 
 
+if (!defined('BASE_URL')) {
+    define('BASE_URL', '/ecommerce-pDb/');
+}
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Check if form is submitted
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -36,32 +43,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once 'controllers/AuthController.php';
     $auth = new AuthController();
     
-    // Validate form inputs
-    if ($_POST['password'] !== $_POST['confirmPassword']) {
-        $error = "Passwords don't match";
-    }  else {
-        // Process registration
-        $userData = [
-            'name' => $_POST['name'],
-            'email' => $_POST['email'],
-            'password' => $_POST['password'],
-            // Default image
-            'image' => 'assets/images/default-avatar.jpg'
-        ];
-        
-        $result = $auth->register($userData);
-        
-        if ($result['success']) {
-            // Redirect to login page
-            header('Location: ' . BASE_URL . 'login?registered=true');
-            exit;
-        } else {
-            $error = $result['message'];
-        }
+    // Process login
+    $result = $auth->login($_POST['email'], $_POST['password']);
+    
+    if ($result['success']) {
+        // Redirect to home page
+        header('Location: ' . BASE_URL);
+        exit;
+    } else {
+        $error = $result['message'];
     }
+    
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -207,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 </div>
                 <?php if (isset($_SESSION['user_id'])): ?>
-                <a href="<?php echo BASE_URL; ?>logout" class="text-red-600 hover:underline">Logout</a>
+                <a href="<?php echo BASE_URL; ?>logout.php" class="text-red-600 hover:underline">Logout</a>
                 <?php endif; ?>
                 <div class="header-user-actions">
                 <div class="account-dropdown">
@@ -240,8 +234,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     </header>
 
+  
     <style>
-        [type="text"]:focus,
+        input [type="text"]:focus,
         [type="email"]:focus,
         [type="url"]:focus,
         [type="password"]:focus,
@@ -256,66 +251,92 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         [multiple]:focus,
         textarea:focus,
         select:focus {
+            --tw-ring-color: transparent !important;
+            border-color: transparent !important;
+        }
 
-            box-shadow: none !important;
+        input [type="text"]:hover,
+        [type="email"]:hover,
+        [type="url"]:hover,
+        [type="password"]:hover,
+        [type="number"]:hover,
+        [type="date"]:hover,
+        [type="datetime-local"]:hover,
+        [type="month"]:hover,
+        [type="search"]:hover,
+        [type="tel"]:hover,
+        [type="time"]:hover,
+        [type="week"]:hover,
+        [multiple]:hover,
+        textarea:hover,
+        select:hover {
+            --tw-ring-color: transparent !important;
+            border-color: transparent !important;
+        }
+
+        input [type="text"]:active,
+        [type="email"]:active,
+        [type="url"]:active,
+        [type="password"]:active,
+        [type="number"]:active,
+        [type="date"]:active,
+        [type="datetime-local"]:active,
+        [type="month"]:active,
+        [type="search"]:active,
+        [type="tel"]:active,
+        [type="time"]:active,
+        [type="week"]:active,
+        [multiple]:active,
+        textarea:active,
+        select:active {
+            --tw-ring-color: transparent !important;
             border-color: transparent !important;
         }
     </style>
-    <!-- Sign Up Section Start -->
-  <div class="login-section">
+    <!-- Log In Section Start -->
+   <!-- Log In Section Start -->
+<div class="login-section">
     <div class="materialContainer">
         <div class="box">
-            <?php if (!empty($error)): ?>
+            <?php if (isset($error) && !empty($error)): ?>
             <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
                 <?php echo $error; ?>
             </div>
             <?php endif; ?>
-            
-            <form method="POST" action="<?php echo BASE_URL; ?>register">
-                <input type="hidden" name="_token" value="<?php echo $_SESSION['_token'] ?? '';?>">
-                
+
+            <form method="POST" action="<?php echo BASE_URL; ?>login">
+                <input type="hidden" name="_token" value="<?php echo $_SESSION['_token'] ?? '' ?>">
                 <div class="login-title">
-                    <h2>Register</h2>
-                    <p>Enter your details to sign up for a new account</p>
+                    <h2>Login</h2>
                 </div>
-
                 <div class="input">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" placeholder="" required>
-                </div>
-
-                <div class="input">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="" required>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="" required autofocus autocomplete="username">
                 </div>
 
                 <div class="input">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
                 </div>
 
-                <div class="input">
-                    <label for="confirmPassword">Confirm Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required>
-                </div>
 
-    
 
                 <div class="button login">
                     <button type="submit">
-                        <span>Sign Up</span>
+                        <span>Log In</span>
                         <i class="fa fa-check"></i>
                     </button>
                 </div>
+
+                <p>Don't have an account? <a href="<?php echo BASE_URL; ?>register" class="theme-color">Sign up now</a></p>
             </form>
-
-
-            <p><a href="<?php echo BASE_URL; ?>login" class="theme-color">Already have an account?</a></p>
         </div>
     </div>
 </div>
+<!-- Log In Section End -->
 
-  
+    <!-- Log In Section End -->
+
     <div class="bg-overlay"></div>
     <script src="<?php echo BASE_URL; ?>/assets2/js/jquery-3.5.1.min.js"></script>
     <script src="<?php echo BASE_URL; ?>/assets2/js/bootstrap/bootstrap.bundle.min.js"></script>
@@ -338,7 +359,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
     </script>
     
-
+<script>
+// This handles direct input changes (when user types a number)
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.cart-qty-value').forEach(input => {
+        input.addEventListener('change', function() {
+            this.form.submit();
+        });
+    });
+});
+</script>
     
 <script src="./assets/js/script.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

@@ -185,6 +185,8 @@ class Cart {
         
         try {
             if ($stmt->execute()) {
+                $cartModel = new Cart();
+                $_SESSION['cart_count'] = count($cartModel->getUserCart($_SESSION['user_id']));
                 return true;
             }
             return false;

@@ -155,6 +155,69 @@ $pageTitle = "Checkout";
             }
         }
     </style>
+            <style>
+.account-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.account-dropdown .dropdown-menu {
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 8px;
+    padding: 10px 0;
+    margin-top: 10px;
+    /* Initial state */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: 
+        opacity 0.3s ease,
+        visibility 0.3s ease,
+        transform 0.3s ease;
+    /* Add delay for hover out */
+    transition-delay: 0.1s;
+}
+
+.account-dropdown .dropdown-menu a {
+    color: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    white-space: nowrap;
+}
+
+.account-dropdown .dropdown-menu a:hover {
+    background-color: #f5f5f5;
+}
+
+.account-dropdown:hover .dropdown-menu {
+    /* Show with animation */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    /* Remove delay when hovering in */
+    transition-delay: 0s;
+}
+
+/* Add this to make the dropdown stay visible when moving cursor from button to menu */
+.account-dropdown .dropdown-menu:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.account-dropdown .action-btn {
+    color: #333;
+    font-size: 1.5rem;
+    /* Make the button a bit larger for better hover area */
+    padding: 8px;
+    display: inline-block;
+}
+</style>
 
 </head>
 
@@ -232,18 +295,23 @@ $pageTitle = "Checkout";
 
                 </div>
                 <?php if (isset($_SESSION['user_id'])): ?>
-                <a href="<?php echo BASE_URL; ?>logout.php" class="text-red-600 hover:underline">Logout</a>
+                <a href="<?php echo BASE_URL; ?>logout" class="text-red-600 hover:underline">Logout</a>
                 <?php endif; ?>
                 <div class="header-user-actions">
-                    <?php if (!empty($is_logged_in)): ?>
-                    <a href="<?php echo BASE_URL; ?>account" class="action-btn">
-                        <ion-icon name="person-outline"></ion-icon>
-                    </a>
-                    <?php else: ?>
-                    <a href="<?php echo BASE_URL; ?>login" class="action-btn">
-                        <ion-icon name="person-outline"></ion-icon>
-                    </a>
-                    <?php endif; ?>
+                <div class="account-dropdown">
+    <a href="#" class="action-btn">
+        <ion-icon name="person-outline"></ion-icon>
+    </a>
+    <div class="dropdown-menu">
+        <?php if (!empty($is_logged_in)): ?>
+            <!-- <a href="<?php echo BASE_URL; ?>account">My Account</a> -->
+            <a href="<?php echo BASE_URL; ?>logout">Logout</a>
+        <?php else: ?>
+            <a href="<?php echo BASE_URL; ?>login">Login</a>
+            <a href="<?php echo BASE_URL; ?>register">Register</a>
+        <?php endif; ?>
+    </div>
+</div>
 
                     <a href="<?php echo BASE_URL; ?>wishlist" class="action-btn">
                         <ion-icon name="heart-outline"></ion-icon>

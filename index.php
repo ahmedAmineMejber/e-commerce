@@ -49,7 +49,7 @@ $router->get('orders', 'views/orders.php');
 $router->get('order-details', 'views/order_detail.php');
 
 // Define your routes
-$router->get('', 'views/includes/home2.php');
+$router->get('', 'views/includes/home.php');
 $router->get('home', 'views/includes/home.php');
 $router->get('products', 'views/product_list.php');
 $router->get('product', 'views/product_detail.php');
@@ -58,13 +58,15 @@ $router->get('checkout', 'views/checkout.php');
 $router->get('order-confirmation', 'views/confirmation.php');
 $router->get('login', 'views/login.php');
 $router->get('register', 'views/register.php');
+$router->get('login2', 'views/login2.php');
 $router->get('account', 'views/account.php');
 $router->get('wishlist', 'views/wishlist.php');
 $router->get('admin', 'views/admin/dashboard.php');
 $router->get('test', 'test_header.php');
 $router->get('index1', 'index1.php');
-$router->get('home2', 'views/includes/home2.php');
 $router->get('search', 'views/product_list.php');
+$router->get('logout', 'logout.php');
+
 
 
 

@@ -11,6 +11,6 @@ $auth = new AuthController();
 $result = $auth->logout();
 
 // Redirect to login page with a logout message
-header('Location: /E-commerceP/login.php?logout=true');
+header('Location: /E-commerceP/');
 exit;
 ?>
