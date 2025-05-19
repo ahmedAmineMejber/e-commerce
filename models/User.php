@@ -1,4 +1,3 @@
-
 <?php
 require_once 'config/database.php';
 
@@ -110,7 +109,7 @@ class User {
             $query .= ", password = :password";
         }
         
-        $query .= ", image = :image 
+        $query .= ", image = :image, role = :role 
             WHERE id = :id";
         
         $stmt = $this->conn->prepare($query);
@@ -120,16 +119,18 @@ class User {
         $this->name = htmlspecialchars(strip_tags($userData['name']));
         $this->email = htmlspecialchars(strip_tags($userData['email']));
         $this->image = htmlspecialchars(strip_tags($userData['image']));
+        $this->role = htmlspecialchars(strip_tags($userData['role']));
         
         // Bind data
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':image', $this->image);
+        $stmt->bindParam(':role', $this->role);
         
         // If password is being updated, hash it and bind
         if (isset($userData['password']) && !empty($userData['password'])) {
-            $this->password = password_hash($userData['password'], PASSWORD_BCRYPT);
+            $this->password = $userData['password']; // Already hashed in controller
             $stmt->bindParam(':password', $this->password);
         }
         
@@ -139,6 +140,25 @@ class User {
             }
             return false;
         } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+    
+    // Delete user
+    public function delete($id) {
+        $query = "DELETE FROM " . $this->table . " WHERE id = :id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        
+        try {
+            if ($stmt->execute()) {
+                return true;
+            }
+            return false;
+        } catch (PDOException $e) {
+            // If there's a foreign key constraint (e.g., user has orders)
             echo "Error: " . $e->getMessage();
             return false;
         }

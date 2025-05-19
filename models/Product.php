@@ -1,4 +1,3 @@
-
 <?php
 require_once 'config/database.php';
 
@@ -15,11 +14,13 @@ class Product {
     public $brand;
     public $color;
     public $age_range;
+    public $rating;
     public $image;
     public $image_hover;
     public $stock;
     public $description;
     public $status;
+    public $original_price;
     public $is_featured;
     
     public function __construct() {
@@ -30,9 +31,9 @@ class Product {
     // Create product
     public function create($productData) {
         $query = "INSERT INTO " . $this->table . " 
-            (id, admin_id, category_id, name, price, brand, color, age_range, image, image_hover, stock, description, status, is_featured) 
+            (id, admin_id, category_id, name, price, , original_price ,brand, color, age_range, rating , image, image_hover, stock, description, status, is_featured) 
             VALUES 
-            (:id, :admin_id, :category_id, :name, :price, :brand, :color, :age_range, :image, :image_hover, :stock, :description, :status, :is_featured)";
+            (:id, :admin_id, :category_id, :name, :price, :original_price , :brand, :color, :age_range, :rating , :image, :image_hover, :stock, :description, :status, :is_featured)";
         
         $stmt = $this->conn->prepare($query);
         
@@ -42,9 +43,11 @@ class Product {
         $this->category_id = htmlspecialchars(strip_tags($productData['category_id']));
         $this->name = htmlspecialchars(strip_tags($productData['name']));
         $this->price = htmlspecialchars(strip_tags($productData['price']));
+        $this->original_price = htmlspecialchars(strip_tags($productData['original_price']));
         $this->brand = htmlspecialchars(strip_tags($productData['brand']));
         $this->color = htmlspecialchars(strip_tags($productData['color']));
         $this->age_range = htmlspecialchars(strip_tags($productData['age_range']));
+        $this->rating = htmlspecialchars(strip_tags($productData['rating']));
         $this->image = htmlspecialchars(strip_tags($productData['image']));
         $this->image_hover = htmlspecialchars(strip_tags($productData['image_hover'] ?? ''));
         $this->stock = htmlspecialchars(strip_tags($productData['stock']));
@@ -58,9 +61,11 @@ class Product {
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':price', $this->price);
+        $stmt->bindParam(':original_price', $this->original_price);
         $stmt->bindParam(':brand', $this->brand);
         $stmt->bindParam(':color', $this->color);
         $stmt->bindParam(':age_range', $this->age_range);
+        $stmt->bindParam(':rating', $this->rating);
         $stmt->bindParam(':image', $this->image);
         $stmt->bindParam(':image_hover', $this->image_hover);
         $stmt->bindParam(':stock', $this->stock);
@@ -175,12 +180,24 @@ class Product {
     }
     
     // Get featured products
-    public function getFeaturedProducts($limit) {
-        // For demo purposes, we'll just get the latest products
-        // In a real app, you might have a 'featured' flag or other criteria
+    public function getLimit($limit ) {
+
         $query = "SELECT p.*, c.name as category FROM " . $this->table . " p
                   LEFT JOIN categories c ON p.category_id = c.id
                   WHERE p.status = 'active'
+                  ORDER BY p.id DESC LIMIT :limit";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getFeaturedProducts($limit ) {
+
+        $query = "SELECT p.*, c.name as category FROM " . $this->table . " p
+                  LEFT JOIN categories c ON p.category_id = c.id
+                  WHERE p.status = 'active' AND p.is_featured = 1
                   ORDER BY p.id DESC LIMIT :limit";
         
         $stmt = $this->conn->prepare($query);
@@ -196,6 +213,7 @@ class Product {
             category_id = :category_id, 
             name = :name, 
             price = :price, 
+            original_price = :original_price,
             brand = :brand, 
             color = :color, 
             age_range = :age_range, 
@@ -203,6 +221,7 @@ class Product {
             image_hover = :image_hover, 
             stock = :stock, 
             description = :description, 
+                        rating = :rating,
             status = :status,
             is_featured = :is_featured 
             WHERE id = :id";
@@ -214,9 +233,11 @@ class Product {
         $this->category_id = htmlspecialchars(strip_tags($productData['category_id']));
         $this->name = htmlspecialchars(strip_tags($productData['name']));
         $this->price = htmlspecialchars(strip_tags($productData['price']));
+        $this->original_price = htmlspecialchars(strip_tags($productData['original_price']));
         $this->brand = htmlspecialchars(strip_tags($productData['brand']));
         $this->color = htmlspecialchars(strip_tags($productData['color']));
         $this->age_range = htmlspecialchars(strip_tags($productData['age_range']));
+        $this->rating = htmlspecialchars(strip_tags($productData['rating']));
         $this->image = htmlspecialchars(strip_tags($productData['image']));
         $this->image_hover = htmlspecialchars(strip_tags($productData['image_hover'] ?? ''));
         $this->stock = htmlspecialchars(strip_tags($productData['stock']));
@@ -229,9 +250,11 @@ class Product {
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':price', $this->price);
+        $stmt->bindParam(':original_price', $this->original_price);
         $stmt->bindParam(':brand', $this->brand);
         $stmt->bindParam(':color', $this->color);
         $stmt->bindParam(':age_range', $this->age_range);
+        $stmt->bindParam(':rating', $this->rating);
         $stmt->bindParam(':image', $this->image);
         $stmt->bindParam(':image_hover', $this->image_hover);
         $stmt->bindParam(':stock', $this->stock);
@@ -304,8 +327,6 @@ class Product {
             return false;
         }
     }
-
-
     public function getDealOfTheDay($limit = 3) {
         $stmt = $this->conn->prepare("
             SELECT * FROM products 
@@ -315,6 +336,23 @@ class Product {
         ");
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    // Get top selling products
+    public function getTopSelling($limit = 5) {
+        $query = "SELECT p.id, p.name, p.price, p.image, COUNT(oi.id) as sold
+                  FROM " . $this->table . " p
+                  LEFT JOIN order_items oi ON p.id = oi.product_id
+                  LEFT JOIN orders o ON oi.order_id = o.id
+                  WHERE p.status = 'active' AND (o.status = 'completed' OR o.status IS NULL)
+                  GROUP BY p.id
+                  ORDER BY sold DESC
+                  LIMIT :limit";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -34,11 +34,15 @@ require_once 'router.php';
 $router = new Router();
 
 // Admin routes
+// Admin routes
+$router->get('admin', 'views/admin/dashboard.php');
 $router->get('admin/manage-products', 'views/admin/manage_products.php');
 $router->get('admin/manage-products/add', 'views/admin/product_form.php');
 $router->get('admin/manage-products/edit', 'views/admin/product_form.php');
 $router->get('admin/manage-categories', 'views/admin/manage_categories.php');
 $router->get('admin/manage-users', 'views/admin/manage_users.php');
+$router->get('admin/manage-users/add', 'views/admin/user_form.php');
+$router->get('admin/manage-users/edit', 'views/admin/user_form.php');
 $router->get('admin/orders', 'views/admin/orders.php');
 $router->get('admin/orders/view', 'views/admin/order_detail.php');
 $router->get('admin/user-details', 'views/admin/user_detail.php');
@@ -67,6 +71,22 @@ $router->get('index1', 'index1.php');
 $router->get('search', 'views/product_list.php');
 $router->get('logout', 'logout.php');
 
+$router->get('admin', 'views/admin/dashboard.php');
+
+// Admin orders management routes
+$router->get('admin/orders', 'views/admin/orders.php');
+$router->get('admin/orders/view', 'views/admin/order_detail.php');
+
+$router->post('admin/orders', 'views/admin/orders.php');
+$router->post('admin/orders/view', 'views/admin/order_detail.php');
+
+// User management routes
+$router->get('admin/user-details', 'views/admin/user_detail.php');
+$router->get('admin/user-orders', 'views/admin/user_orders.php');
+
+// User management routes
+$router->post('admin/user-details', 'views/admin/user_detail.php');
+$router->post('admin/user-orders', 'views/admin/user_orders.php');
 
 
 
@@ -76,6 +96,19 @@ $router->post('register', 'views/register.php');
 $router->post('checkout', 'views/checkout.php');
 $router->post('wishlist', 'controllers/WishlistController.php');
 $router->post('cart', 'controllers/CartController.php');
+$router->post('admin/manage-users/add', 'views/admin/user_form.php');
+$router->post('admin/manage-users/edit', 'views/admin/user_form.php');
+//for deleting a user
+$router->post('admin/manage-users', 'views/admin/manage_users.php');
+
+$router->post('admin/manage-products', 'views/admin/manage_products.php');
+$router->post('admin/manage-products/add', 'views/admin/product_form.php');
+$router->post('admin/manage-products/edit', 'views/admin/product_form.php');
+
+$router->post('admin/manage-categories', 'views/admin/manage_categories.php');
+
+
+
 
 // Fallback for 404
 $router->get('404', 'views/not_found.php');

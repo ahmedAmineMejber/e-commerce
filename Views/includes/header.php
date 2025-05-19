@@ -21,6 +21,8 @@ $_SESSION['wishlist_count'] = $_SESSION['wishlist_count'] ?? 0;
 $is_logged_in = isset($_SESSION['user_id']);
 $wishlist_count = $_SESSION['wishlist_count'];
 $cart_count = $_SESSION['cart_count'];
+if($is_logged_in)
+$is_admin = ($_SESSION['user_role'] === 'admin');
 
 // For testing - simulate a logged in user (remove in production)
 // $_SESSION['user_id'] = 1; // Uncomment to test logged-in state
@@ -216,52 +218,60 @@ $cart_count = $_SESSION['cart_count'];
   -->
 
     <header>
-        <div class="header-main">
-            <div class="container">
-                <a href="<?php echo BASE_URL; ?>" class="header-logo">
-                    <img src="<?php echo BASE_URL; ?>assets/images/logo/logo.svg" alt="Anon's logo" width="120"
-                        height="36">
+       <div class="header-main">
+    <div class="container">
+        <a href="<?php echo BASE_URL; ?>" class="header-logo">
+            <img src="<?php echo BASE_URL; ?>assets/images/logo/logo.svg" alt="Anon's logo" width="120" height="36">
+        </a>
+
+        <div class="header-search-container">
+            <form action="<?php echo BASE_URL; ?>search" method="GET">
+                <input type="search" name="search" class="search-field" placeholder="Enter your product name..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+                <button type="submit" class="search-btn">
+                    <ion-icon name="search-outline"></ion-icon>
+                </button>
+            </form>
+        </div>
+
+        <div class="header-user-actions">
+
+
+
+            <div class="account-dropdown">
+                <a href="#" class="action-btn">
+                    <ion-icon name="person-outline"></ion-icon>
                 </a>
+                <div class="dropdown-menu">
+                    <?php if (!empty($is_logged_in)): ?>
+                        <!-- <a href="<?php echo BASE_URL; ?>account">My Account</a> -->
+                        <a href="<?php echo BASE_URL; ?>logout">Logout</a>
 
-                <div class="header-search-container">
-                    <form action="<?php echo BASE_URL; ?>search" method="GET">
-                        <input type="search" name="search" class="search-field" placeholder="Enter your product name..."
-                            value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
-                        <button type="submit" class="search-btn">
-                            <ion-icon name="search-outline"></ion-icon>
-                        </button>
-                    </form>
-
+                    <?php else: ?>
+                        <a href="<?php echo BASE_URL; ?>login">Login</a>
+                        <a href="<?php echo BASE_URL; ?>register">Register</a>
+                    <?php endif; ?>
                 </div>
-                <div class="header-user-actions">
-                <div class="account-dropdown">
-    <a href="#" class="action-btn">
-        <ion-icon name="person-outline"></ion-icon>
-    </a>
-    <div class="dropdown-menu">
-        <?php if (!empty($is_logged_in)): ?>
-            <!-- <a href="<?php echo BASE_URL; ?>account">My Account</a> -->
-            <a href="<?php echo BASE_URL; ?>logout">Logout</a>
-        <?php else: ?>
-            <a href="<?php echo BASE_URL; ?>login">Login</a>
-            <a href="<?php echo BASE_URL; ?>register">Register</a>
-        <?php endif; ?>
+            </div>
+
+            <a href="<?php echo BASE_URL; ?>wishlist" class="action-btn">
+                <ion-icon name="heart-outline"></ion-icon>
+                <span class="count"><?php echo $wishlist_count; ?></span>
+            </a>
+
+            <a href="<?php echo BASE_URL; ?>cart" class="action-btn">
+                <ion-icon name="bag-handle-outline"></ion-icon>
+                <span class="count"><?php echo $cart_count; ?></span>
+            </a>
+            <?php if (!empty($is_logged_in) && !empty($is_admin) && $is_admin === true): ?>
+                <!-- Admin Dashboard Icon -->
+                <a href="<?php echo BASE_URL; ?>admin" class="action-btn" title="Admin Dashboard">
+                    <ion-icon name="speedometer-outline"></ion-icon>
+                </a>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 
-
-                    <a href="<?php echo BASE_URL; ?>wishlist" class="action-btn">
-                        <ion-icon name="heart-outline"></ion-icon>
-                        <span class="count"><?php echo $wishlist_count; ?></span>
-                    </a>
-
-                    <a href="<?php echo BASE_URL; ?>cart" class="action-btn">
-                        <ion-icon name="bag-handle-outline"></ion-icon>
-                        <span class="count"><?php echo $cart_count; ?></span>
-                    </a>
-                </div>
-            </div>
-        </div>
 
         <!-- DESKTOP NAVIGATION -->
         <nav class="desktop-navigation-menu">

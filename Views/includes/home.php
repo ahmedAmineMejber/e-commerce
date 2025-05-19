@@ -139,123 +139,58 @@ require_once 'header.php';
                     <div class="showcase-wrapper">
 
                         <div class="showcase-container">
+                        <?php
+    require_once 'models/Product.php';
+    $productModel = new Product();
+    $featuredProducts = $productModel->getFeaturedProducts(4);
+    ?>
+            <?php foreach ($featuredProducts as $product): ?>
 
                             <div class="showcase">
 
                                 <a href="#" class="showcase-img-box">
-                                    <img src="./assets/images/products/1.jpg" alt="baby fabric shoes" width="75"
+                                    <img src="<?php echo BASE_URL; ?>assets/images/products/<?php echo htmlspecialchars($product['image']); ?>"
+                                    alt="<?php echo htmlspecialchars($product['name']); ?>" width="75"
                                         height="75" class="showcase-img">
+
                                 </a>
 
                                 <div class="showcase-content">
 
-                                    <a href="#">
-                                        <h4 class="showcase-title">baby fabric shoes</h4>
+                                    <a href="<?php echo BASE_URL; ?>product?id=<?php echo $product['id']; ?>">
+                                        <h4 class="showcase-title"><?php echo $product['name']; ?></h4>
                                     </a>
 
                                     <div class="showcase-rating">
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                    </div>
+    <?php
+    $rating = $product['rating']; // Get rating (0-5)
+    $fullStars = floor($rating); // Full stars count
+    $hasHalfStar = ($rating - $fullStars) >= 0.5; // Check for half star
+    
+    // Display 5 stars
+    for ($i = 1; $i <= 5; $i++): 
+        if ($i <= $fullStars): ?>
+            <ion-icon name="star"></ion-icon>
+        <?php elseif ($i == $fullStars + 1 && $hasHalfStar): ?>
+            <ion-icon name="star-half"></ion-icon>
+        <?php else: ?>
+            <ion-icon name="star-outline"></ion-icon>
+        <?php endif;
+    endfor; ?>
+</div>
 
                                     <div class="price-box">
-                                        <del>$5.00</del>
-                                        <p class="price">$4.00</p>
+                                    <p class="price">$<?php echo number_format($product['price'], 2); ?></p>
+                                    <del>$<?php echo number_format($product['original_price'], 2); ?></del>
                                     </div>
 
                                 </div>
 
                             </div>
 
-                            <div class="showcase">
+                            <?php endforeach; ?>
 
-                                <a href="#" class="showcase-img-box">
-                                    <img src="./assets/images/products/2.jpg" alt="men's hoodies t-shirt"
-                                        class="showcase-img" width="75" height="75">
-                                </a>
-
-                                <div class="showcase-content">
-
-                                    <a href="#">
-                                        <h4 class="showcase-title">men's hoodies t-shirt</h4>
-                                    </a>
-                                    <div class="showcase-rating">
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star-half-outline"></ion-icon>
-                                    </div>
-
-                                    <div class="price-box">
-                                        <del>$17.00</del>
-                                        <p class="price">$7.00</p>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="showcase">
-
-                                <a href="#" class="showcase-img-box">
-                                    <img src="./assets/images/products/3.jpg" alt="girls t-shirt" class="showcase-img"
-                                        width="75" height="75">
-                                </a>
-
-                                <div class="showcase-content">
-
-                                    <a href="#">
-                                        <h4 class="showcase-title">girls t-shirt</h4>
-                                    </a>
-                                    <div class="showcase-rating">
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star-half-outline"></ion-icon>
-                                    </div>
-
-                                    <div class="price-box">
-                                        <del>$5.00</del>
-                                        <p class="price">$3.00</p>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="showcase">
-
-                                <a href="#" class="showcase-img-box">
-                                    <img src="./assets/images/products/4.jpg" alt="woolen hat for men"
-                                        class="showcase-img" width="75" height="75">
-                                </a>
-
-                                <div class="showcase-content">
-
-                                    <a href="#">
-                                        <h4 class="showcase-title">woolen hat for men</h4>
-                                    </a>
-                                    <div class="showcase-rating">
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                    </div>
-
-                                    <div class="price-box">
-                                        <del>$15.00</del>
-                                        <p class="price">$12.00</p>
-                                    </div>
-
-                                </div>
-
-                            </div>
+                          
 
                         </div>
 
@@ -385,10 +320,10 @@ $deals = $productModel->getDealOfTheDay(3);
     <?php
     require_once 'models/Product.php';
     $productModel = new Product();
-    $featuredProducts = $productModel->getFeaturedProducts(8);
+    $Limit = $productModel->getLimit(8);
     ?>
     <div class="product-grid">
-        <?php foreach ($featuredProducts as $product): ?>
+        <?php foreach ($Limit as $product): ?>
         <div class="showcase">
             <div class="showcase-banner">
                 <img src="<?php echo BASE_URL; ?>assets/images/products/<?php echo htmlspecialchars($product['image']); ?>"
